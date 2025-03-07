@@ -1,7 +1,6 @@
 import './Navbar.css'
 import { TbHeartPin } from "react-icons/tb";
 import Dropdown from 'react-bootstrap/Dropdown';
-import logo from './assets/logo.webp'
 
 function Navbar() {
     return (
