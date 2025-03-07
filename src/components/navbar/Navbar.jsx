@@ -1,12 +1,13 @@
 import './Navbar.css'
 import { TbHeartPin } from "react-icons/tb";
 import Dropdown from 'react-bootstrap/Dropdown';
+import logo from './assets/logo.webp'
 
 function Navbar() {
     return (
         <>
             <header>
-                <img className="logo" src='src\assets\logo.jpg'></img>
+                <img className="logo" src={logo}></img>
                 <TbHeartPin fontSize={'2rem'} color='green' className='icon-heart' />
             </header>
             <nav>
