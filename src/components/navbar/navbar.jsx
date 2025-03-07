@@ -7,7 +7,7 @@ function Navbar() {
     return (
         <>
             <header>
-                <img className="logo" src={logo}></img>
+                <img className="logo" src='https://cdn.sanity.io/images/sh7exmvn/production/510281cd5ff8665708c1a8b3c48223449a64d5e2-96x96.gif'></img>
                 <TbHeartPin fontSize={'2rem'} color='green' className='icon-heart' />
             </header>
             <nav>
