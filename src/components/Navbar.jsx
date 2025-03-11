@@ -10,7 +10,7 @@ function Navbar() {
                     <img className="logo-lg logo" src='src/assets/logo/logo-250x150.svg'></img>
                     <Heart fontSize={'2rem'} color='green' className='icon-heart' />
                 </div>
-                <nav>
+                {/* <nav>
                     <Dropdown>
                         <Dropdown.Toggle id="btn-dropdown">
                             Price
@@ -33,7 +33,7 @@ function Navbar() {
                             <Dropdown.Item href="#/action-2" >Studio Apartment</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                </nav>
+                </nav> */}
             </header>
         </>
     );

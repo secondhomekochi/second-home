@@ -1,0 +1,107 @@
+{
+    "_id": "7bdcbcda-ef33-43be-8445-42651e9e9aeb",
+    "_type": "property",
+    "place": "Kakkanad",
+    "locality": "Edachira",
+    "propertyType": "House",
+    "bhkType": "3 BHK",
+    "furnishingType": "Fully Furnished",
+    "rent": 30000,
+    "deposit": 60000,
+    "extraCharges": ["Electricity Bill"],
+    "rating": 3.5,
+    "featured": false,
+    "distance": 739.68,
+    "nearestMetroStation": "7 km to Palarivattom metro station",
+    "nearestBusStop": "100 m",
+    
+    "tenants": {
+        "preferredTenants": ["Boys", "Girls", "Couples", "Unmarried Couples", "Mixed"],
+        "numberOfPeople": 9,
+        "numberOfBoys": 9,
+        "numberOfGirls": 9,
+        "numberOfCouples": 3,
+        "numberOfUnmarriedCouples": 3,
+        "numberOfMixed": 9
+    },
+    
+    "location": {
+        "_type": "geopoint",
+        "lat": 10.018417,
+        "lng": 76.36787
+    },
+
+    "facilities": [
+        "Cot, bed, fridge, washing machine, gas stove, table, chair, and attached bathroom."
+    ],
+    "parkingAvailability": ["Bike"],
+    "other": "The owner lives in the same building.",
+
+    "owner": {
+        "_id": "3b396fc2-a3fd-4abd-b35c-a247f240e5c1",
+        "name": "Elvin",
+        "phone": "7994384064",
+        "email": null,
+        "whatsapp": null,
+        "preferredContact": null
+    },
+
+    "media": {
+        "mapsUrl": "https://maps.app.goo.gl/SCTCdLLP3u9QTPwA7",
+        "youtubeVideo": "https://youtube.com/shorts/8qsO0R7SHQQ?feature=share",
+        "photos": [
+            {
+                "_type": "image",
+                "_key": "2788080ab956",
+                "asset": {
+                    "_ref": "image-ef7e820f4819fa9bcdf8de6aa94b56aa83fab7fb-960x1280-jpg",
+                    "_type": "reference"
+                }
+            },
+            {
+                "_type": "image",
+                "_key": "0c87fe8278eb",
+                "asset": {
+                    "_ref": "image-6096457ea79bd04730b7cff558191bdea08d3244-960x1280-jpg",
+                    "_type": "reference"
+                }
+            },
+            {
+                "_type": "image",
+                "_key": "25270b90e94e",
+                "asset": {
+                    "_ref": "image-bd512f0dce143383202b9bee867d4de6559b3703-960x1280-jpg",
+                    "_type": "reference"
+                }
+            },
+            {
+                "_type": "image",
+                "_key": "218bce33bdb2",
+                "asset": {
+                    "_ref": "image-242e949c4fc7530f45446219164a1d796b0d491b-960x1280-jpg",
+                    "_type": "reference"
+                }
+            },
+            {
+                "_type": "image",
+                "_key": "17db12754bab",
+                "asset": {
+                    "_ref": "image-7ab2c1226c1439aacf7118278920b38b2ac7c2bb-960x1280-jpg",
+                    "_type": "reference"
+                }
+            },
+            {
+                "_type": "image",
+                "_key": "a2d9f3816df9",
+                "asset": {
+                    "_ref": "image-7de7225a51307b74209b3ce872b09cd1f6cfb864-960x1280-jpg",
+                    "_type": "reference"
+                }
+            }
+        ]
+    },
+
+    "_createdAt": "2025-01-30T15:03:02Z",
+    "_updatedAt": "2025-01-30T17:18:57Z",
+    "_rev": "J19INXfkEwCc8cdmy12sLX"
+}

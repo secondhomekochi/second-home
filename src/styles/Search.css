@@ -1,0 +1,242 @@
+/* Container */
+button{
+    background: none;
+    border: none;
+}
+.filter-button{
+    color: #118B50;
+}
+.reset-button{
+    color: red;
+}
+.filter-chip{
+    background-color: #E3F0AF;
+    color: #374151;
+    padding: 3px 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+.search-container {
+    position: fixed;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    z-index: 50;
+}
+
+/* Filters Panel */
+.filters-panel {
+    background: white;
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 24rem;
+    overflow-y: auto;
+}
+.filter-heading{
+    justify-self: flex-start;
+    padding-left: 12px;
+}
+.price-inputs{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.price-input-section{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 24px;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+.price-input, .distance-input{
+    border: none;
+    border: 2px solid #E3F0AF;
+    width: 80px;
+    background-color: transparent;
+    color: #374151;
+}
+.price-input:focus{
+    outline: none;
+}
+.filter-options{
+    display: flex;
+    flex-wrap: wrap;
+    padding-inline: 12px;
+    align-items: center;
+    gap: 8px;
+}
+.filter-section{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.distance-input{
+    justify-self: flex-start;
+    align-self: flex-start;
+    margin-left: 12px;
+    margin-bottom: 8px;
+}
+.apply-button{
+    background-color: #118B50;
+    padding: 4px 12px;
+    border-radius: 8px;
+    margin: 8px 12px;
+}
+/* Search Results Panel */
+.search-results-panel {
+    background: white;
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 24rem;
+    overflow-y: auto;
+}
+.search-header, .suggestions-container{
+    width: 100%;
+}
+.search-header, .location-item, .filters-header{
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 8px;
+}
+.search-item{
+    padding: 12px 8px;
+    width: 100%;
+    text-align: start;
+}
+.search-item > svg{
+    color: #118B50;
+}
+.location-info > svg{
+    color: rgb(211, 17, 17);
+}
+
+/* Search Bar */
+.search-bar {
+    background: white;
+    padding: 1rem;
+}
+
+.search-input-container {
+    position: relative;
+}
+
+/* .search-input-container.expanded {
+    border: 1px solid #ef4444;
+    border-radius: 9999px;
+} */
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-input-wrapper {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: #f3f4f6;
+    border-radius: 9999px;
+}
+
+.search-icon {
+    color: #6b7280;
+    margin-right: 0.5rem;
+}
+
+.search-input {
+    flex-grow: 1;
+    margin-left: 8px;
+    background: transparent;
+    outline: none;
+    border: none;
+    color: black;
+}
+
+/* .search-button {
+    background: #ef4444;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 500;
+} */
+.clear-icon{
+    padding: 4px;
+    cursor: pointer;
+    stroke-width: 2.75px;
+}
+/* Collapse Handle */
+.collapse-handle {
+    position: absolute;
+    top: -2rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.collapse-button {
+    background: white;
+    border-radius: 1rem 1rem 0 0;
+    width: 3rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.collapse-icon {
+    color: #6b7280;
+}
+
+/* Filters and Results Styling */
+.filters-panel h2,
+.search-results-panel h2 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.filters-panel h3,
+.search-results-panel h3 {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.75rem;
+}
+
+
+.filters-panel button:active,
+.search-results-panel button:active {
+    transform: scale(0.95);
+}
+
+/* Quick Filters */
+.quick-filters {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.75rem;
+    padding-bottom: 0.5rem;
+}
+
+.quick-filters > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #e3f0afc7;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    min-width: 4rem;
+}
+
+.quick-filters span {
+    font-size: 0.75rem;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.quick-filter > svg{
+    color: #0e7543;
+    stroke-width: 2.5;
+}
