@@ -112,6 +112,7 @@ const Search = () => {
   }, []);
 
   const handleFocus = () => {
+    setShowFilters(false)
     setIsExpanded(true);
   };
 
@@ -315,10 +316,6 @@ const Search = () => {
             </div>
             <div className="filter-section">
               <h3 className="filter-heading">Price Range</h3>
-              {/* <div className="price-display">
-                <span className="price-value">{formatPrice(priceRange[0])}</span>
-                <span className="price-value">{formatPrice(priceRange[1])}</span>
-              </div> */}
               <div className="price-inputs">
                 <div className="price-input-section">
                   <label>Min</label>
@@ -329,33 +326,12 @@ const Search = () => {
                   <input type="text" value={priceRange[1]} className='price-input max-price' onChange={handleMaxPriceChange} />
                 </div>
               </div>
-              {/* <div className="range-inputs">
-                <input 
-                  type="range" 
-                  min="5000" 
-                  max="30000" 
-                  step="500"
-                  value={priceRange[0]}
-                  onChange={handleMinPriceChange}
-                  className="range-slider"
-                />
-                <input 
-                  type="range" 
-                  min="5000" 
-                  max="30000" 
-                  step="500"
-                  value={priceRange[1]}
-                  onChange={handleMaxPriceChange}
-                  className="range-slider"
-                />
-              </div> */}
             </div>
 
             {/* BHK Options */}
             <div className="filter-section">
               <h3 className="filter-heading">BHK</h3>
               <div className="filter-options">
-                {/* {logAllFilters()} */}
                 {bhkFilterOptions.map(option => (
                   <button
                     key={option.value}
@@ -438,13 +414,13 @@ const Search = () => {
       )}
 
       {/* Expanded Search Results Panel */}
-      {isExpanded && !showFilters && (
+      {isExpanded && (
         <div className="search-results-panel">
           {/* Search Header */}
           <div className="search-header">
             <h2 className="search-title">Search Properties</h2>
             <button
-              onClick={() => {setIsExpanded(false)}}
+              onClick={() => { setIsExpanded(false) }}
               className="close-search-button"
             >
               <X size={18} className="close-icon" />
@@ -454,67 +430,6 @@ const Search = () => {
 
           {/* Suggestions */}
           <div className="suggestions-container">
-            {/* Applied Filters Summary */}
-            {/* {(
-              <div className="applied-filters" ref={appliedFiltersRef}>
-                <h3 className="applied-filters-title">Applied Filters:</h3>
-                <div className="applied-filters-list">
-                  {priceRange[0] > 5000 || priceRange[1] < 30000 ? (
-                    <div className="applied-filter" onClick={() => {
-                      setShowFilters(true);
-                    }}>
-                      {formatPrice(priceRange[0])} - {formatPrice(priceRange[1])}
-                    </div>
-                  ) : null}
-
-                  {bhkOptions.length > 0 && (
-                    <div className="applied-filter" onClick={() => {
-                      setShowFilters(true);
-                    }}>
-                      {bhkOptions.length === 1 ? bhkOptions[0] + ' BHK' : `${bhkOptions.length} BHK options`}
-                    </div>
-                  )}
-
-                  {maxDistance < 10 && (
-                    <div className="applied-filter" onClick={() => {
-                      setShowFilters(true);
-                    }}>
-                      Max {maxDistance} km
-                    </div>
-                  )}
-
-                  {tenantTypes.length > 0 && (
-                    <div className="applied-filter" onClick={() => {
-                      setShowFilters(true);
-                    }}>
-                      {tenantTypes.length === 1
-                        ? tenantFilterOptions.find(o => o.value === tenantTypes[0])?.label
-                        : `${tenantTypes.length} tenant types`}
-                    </div>
-                  )}
-
-                  {furnishingTypes.length > 0 && (
-                    <div className="applied-filter" onClick={() => {
-                      setShowFilters(true);
-                    }}>
-                      {furnishingTypes.length === 1
-                        ? furnishingFilterOptions.find(o => o.value === furnishingTypes[0])?.label
-                        : `${furnishingTypes.length} furnishing types`}
-                    </div>
-                  )}
-
-                  {propertyTypes.length > 0 && (
-                    <div className="applied-filter" onClick={() => {
-                      setShowFilters(true);
-                    }}>
-                      {propertyTypes.length === 1
-                        ? propertyTypeOptions.find(o => o.value === propertyTypes[0])?.label
-                        : `${propertyTypes.length} property types`}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )} */}
 
             {/* Recent Searches Section */}
             {searchTerm.trim() === '' && recentSearches.length > 0 && (
@@ -529,7 +444,7 @@ const Search = () => {
                       className="search-item"
                       onClick={() => selectLocation(term)}
                     >
-                      <Clock size={16} className="search-icon" />
+                      <Clock size={16} className="clock-icon" />
                       <span className="search-text">{term}</span>
                     </div>
                   ))}
@@ -632,41 +547,30 @@ const Search = () => {
       {/* Floating Search Bar */}
       <div
         className={`search-bar ${isExpanded ? '' : 'search-bar-collapsed'}`}
-        onClick={isExpanded ? undefined : handleExpand}
       >
-        <div className={`search-input-container`}>
-          <form onSubmit={handleSearch} className="search-form">
-            <div className="search-input-wrapper">
-              <SearchIcon size={20} className="search-input-icon" />
-              <input
-                ref={inputRef}
-                type="text"
-                placeholder="Search for locations..."
-                className="search-input"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onFocus={handleFocus}
-              />
-              {searchTerm && (
-                <X size={24} className='clear-icon' onClick={(e) => {
-                  e.stopPropagation();
-                  setSearchTerm('');
-                }} />
-              )}
-            </div>
-            {/* {isExpanded && (
-              <button
-                type="submit"
-                className="search-button"
-              >
-                Search
-              </button>
-            )} */}
-          </form>
-        </div>
+        {/* <div className={`search-input-container`}> */}
+        <form onSubmit={handleSearch} className="search-form search-input-wrapper" onClick={isExpanded ? undefined : handleExpand}>
+            <SearchIcon size={24} className="search-input-icon" />
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Search for locations..."
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onFocus={handleFocus}
+            />
+            {searchTerm && (
+              <X size={24} className='clear-icon' onClick={(e) => {
+                e.stopPropagation();
+                setSearchTerm('');
+              }} />
+            )}
+        </form>
+        {/* </div> */}
         <button
           onClick={() => {
-            setIsExpanded(!isExpanded)
+            setIsExpanded(false)
             setShowFilters(!showFilters)
           }}
           className="filter-button"
