@@ -5,6 +5,7 @@ button{
 }
 .filter-button{
     background-color: #118B50;
+    min-width: 88px;
     color: #ffff;
     border-radius: 42px;
     display: flex;
@@ -126,8 +127,7 @@ button{
 /* Search Bar */
 .search-bar {
     padding-inline: 1rem;
-    display: grid;
-    grid-template-columns: 1fr 100px;
+    display: flex;
     column-gap: 8px;
 }
 .search-title, .filters-title{
@@ -141,6 +141,7 @@ button{
 .search-input-container {
     position: relative;
     background-color: #ffff;
+    min-width: 200px;
     border-radius: 42px;
     box-shadow: #0e7543a9 0px 2px 4px, #0e7543a9 0px 2px 4px;
 }
