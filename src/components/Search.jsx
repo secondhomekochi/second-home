@@ -207,16 +207,16 @@ const Search = () => {
     setPropertyTypes([]);
   };
 
-  // const countActiveFilters = () => {
-  //   let count = 0;
-  //   if (priceRange[0] > 5000 || priceRange[1] < 30000) count++;
-  //   if (bhkOptions.length > 0) count++;
-  //   if (maxDistance < 10) count++;
-  //   if (tenantTypes.length > 0) count++;
-  //   if (furnishingTypes.length > 0) count++;
-  //   if (propertyTypes.length > 0) count++;
-  //   return count;
-  // };
+  const countActiveFilters = () => {
+    let count = 0;
+    if (priceRange[0] > 5000 || priceRange[1] < 30000) count++;
+    if (bhkOptions.length > 0) count++;
+    if (maxDistance < 10) count++;
+    if (tenantTypes.length > 0) count++;
+    if (furnishingTypes.length > 0) count++;
+    if (propertyTypes.length > 0) count++;
+    return count;
+  };
 
   // Helper to count total suggestions
   const getTotalSuggestionCount = () => {
@@ -267,7 +267,7 @@ const Search = () => {
   return (
     <div className="search-container" ref={searchRef}>
       {/* Filters Panel */}
-      {isExpanded && showFilters && (
+      {showFilters && (
         <div className="filters-panel">
           <div className="filters-header">
             <h2 className="filters-title">Filters</h2>
@@ -281,6 +281,7 @@ const Search = () => {
               <button
                 onClick={() => {
                   setShowFilters(false);
+                  setIsExpanded(false)
                 }}
                 className="apply-button"
               >
@@ -291,6 +292,27 @@ const Search = () => {
 
           <div className="filters-body">
             {/* Price Range */}
+            <div className="quick-filters-section filter-section">
+              <h3 className="section-title">Quick Filters</h3>
+              <div className="quick-filters">
+                <div className="quick-filter" onClick={() => { quickPriceFilter(10000) }}>
+                  <Home size={20} className="quick-filter-icon" />
+                  <span className="quick-filter-label">Under 10K</span>
+                </div>
+                <div className="quick-filter" onClick={() => { handleQuickFilterClick('tenant', 'bachelors') }}>
+                  <Users size={20} className="quick-filter-icon" />
+                  <span className="quick-filter-label">Bachelors</span>
+                </div>
+                {/* <div className="quick-filter">
+                    <CreditCard size={20} className="quick-filter-icon" />
+                    <span className="quick-filter-label">No Deposit</span>
+                  </div> */}
+                <div className="quick-filter" onClick={() => { handleQuickFilterClick('furnishing', 'fully') }}>
+                  <Check size={20} className="quick-filter-icon" />
+                  <span className="quick-filter-label">Furnished</span>
+                </div>
+              </div>
+            </div>
             <div className="filter-section">
               <h3 className="filter-heading">Price Range</h3>
               {/* <div className="price-display">
@@ -300,11 +322,11 @@ const Search = () => {
               <div className="price-inputs">
                 <div className="price-input-section">
                   <label>Min</label>
-                  <input type="text" value={priceRange[0]} className='price-input min-price'  onChange={handleMinPriceChange} />
+                  <input type="text" value={priceRange[0]} className='price-input min-price' onChange={handleMinPriceChange} />
                 </div>
                 <div className="price-input-section">
                   <label>Max</label>
-                  <input type="text" value={priceRange[1]} className='price-input max-price'  onChange={handleMaxPriceChange} />
+                  <input type="text" value={priceRange[1]} className='price-input max-price' onChange={handleMaxPriceChange} />
                 </div>
               </div>
               {/* <div className="range-inputs">
@@ -422,18 +444,18 @@ const Search = () => {
           <div className="search-header">
             <h2 className="search-title">Search Properties</h2>
             <button
-              onClick={() => setShowFilters(true)}
-              className="filter-button"
+              onClick={() => {setIsExpanded(false)}}
+              className="close-search-button"
             >
-              <Filter size={16} className="filter-icon" />
-              <span className="filter-text">Filters</span>
+              <X size={18} className="close-icon" />
+              <span className="close-search-text">Close</span>
             </button>
           </div>
 
           {/* Suggestions */}
           <div className="suggestions-container">
             {/* Applied Filters Summary */}
-            {(
+            {/* {(
               <div className="applied-filters" ref={appliedFiltersRef}>
                 <h3 className="applied-filters-title">Applied Filters:</h3>
                 <div className="applied-filters-list">
@@ -492,7 +514,7 @@ const Search = () => {
                   )}
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* Recent Searches Section */}
             {searchTerm.trim() === '' && recentSearches.length > 0 && (
@@ -584,11 +606,11 @@ const Search = () => {
               <div className="quick-filters-section">
                 <h3 className="section-title">Quick Filters</h3>
                 <div className="quick-filters">
-                  <div className="quick-filter" onClick={()=>{quickPriceFilter(10000)}}>
+                  <div className="quick-filter" onClick={() => { quickPriceFilter(10000) }}>
                     <Home size={20} className="quick-filter-icon" />
                     <span className="quick-filter-label">Under 10K</span>
                   </div>
-                  <div className="quick-filter" onClick={()=>{handleQuickFilterClick('tenant', 'bachelors')}}>
+                  <div className="quick-filter" onClick={() => { handleQuickFilterClick('tenant', 'bachelors') }}>
                     <Users size={20} className="quick-filter-icon" />
                     <span className="quick-filter-label">Bachelors</span>
                   </div>
@@ -596,7 +618,7 @@ const Search = () => {
                     <CreditCard size={20} className="quick-filter-icon" />
                     <span className="quick-filter-label">No Deposit</span>
                   </div> */}
-                  <div className="quick-filter" onClick={() =>{handleQuickFilterClick('furnishing', 'fully')}}>
+                  <div className="quick-filter" onClick={() => { handleQuickFilterClick('furnishing', 'fully') }}>
                     <Check size={20} className="quick-filter-icon" />
                     <span className="quick-filter-label">Furnished</span>
                   </div>
@@ -642,6 +664,16 @@ const Search = () => {
             )} */}
           </form>
         </div>
+        <button
+          onClick={() => {
+            setIsExpanded(!isExpanded)
+            setShowFilters(!showFilters)
+          }}
+          className="filter-button"
+        >
+          <Filter size={16} className="filter-icon" />
+          <span className="filter-text">Filters <span className='active-filters-count'>{countActiveFilters() == 0 ? '' : countActiveFilters()}</span></span>
+        </button>
       </div>
 
       {/* Collapse Handle */}

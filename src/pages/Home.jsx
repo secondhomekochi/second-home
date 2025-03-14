@@ -63,7 +63,7 @@ const properties = [
 const HomePage = () => {
     return (
         <>
-            {/* <Navbar />
+            <Navbar />
             <main>
                 {
                     properties.map(
@@ -72,7 +72,7 @@ const HomePage = () => {
                         )
                     )
                 }
-            </main> */}
+            </main>
             <Search />
         </>
     );

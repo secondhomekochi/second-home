@@ -4,7 +4,13 @@ button{
     border: none;
 }
 .filter-button{
-    color: #118B50;
+    background-color: #118B50;
+    color: #ffff;
+    border-radius: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 4px;
 }
 .reset-button{
     color: red;
@@ -69,6 +75,7 @@ button{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 8px;
 }
 .distance-input{
     justify-self: flex-start;
@@ -100,8 +107,10 @@ button{
 .search-header, .location-item, .filters-header{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 12px 8px;
 }
+
 .search-item{
     padding: 12px 8px;
     width: 100%;
@@ -116,12 +125,24 @@ button{
 
 /* Search Bar */
 .search-bar {
-    background: white;
-    padding: 1rem;
+    padding-inline: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 100px;
+    column-gap: 8px;
 }
-
+.search-title, .filters-title{
+    margin-left: 12px;
+}
+.close-search-button{
+    color: red;
+    display: flex;align-items: center;
+    column-gap: 4px;
+}
 .search-input-container {
     position: relative;
+    background-color: #ffff;
+    border-radius: 42px;
+    box-shadow: #0e7543a9 0px 2px 4px, #0e7543a9 0px 2px 4px;
 }
 
 /* .search-input-container.expanded {
@@ -139,8 +160,6 @@ button{
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
-    background: #f3f4f6;
-    border-radius: 9999px;
 }
 
 .search-icon {
