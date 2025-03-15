@@ -1,0 +1,360 @@
+/* General Styles */
+.property-listing {
+    max-width: 500px;
+    text-align: start;
+    overflow: hidden;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+}
+
+.brand .icon {
+    background: red;
+    padding: 4px;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.favorite-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Title Section */
+.title-section {
+    margin-inline: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.title-section h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.meta-info {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+    gap: 8px;
+}
+
+/* .meta-info span {
+    margin-right: 8px;
+    color: #464646;
+} */
+.property-type{
+    text-decoration: underline;
+}
+
+.actions {
+    margin-left: auto;
+    display: flex;
+}
+.actions > button{
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+
+/* Image Gallery */
+.image-gallery {
+    display: flex;
+    height: 50vh;
+    max-height: max-content;
+    gap: 8px;
+    padding: 16px;
+}
+.image-gallery-section{
+    position: relative;
+}
+
+.main-image {
+    aspect-ratio: 3/4;
+    max-height: 300px;
+    border-radius: 8px;
+    width: 50%;
+    cursor: pointer;
+}
+.secondary-images{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    max-height: 300px;
+    gap: 2px;
+}
+
+.secondary-images img {
+    height: 50%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.show-all-button {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    border-radius: 4px;
+    padding: 2px;
+    font-weight: 500;
+    font-size: smaller;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    color: #464646;
+    background-color: #fff;
+}
+
+/* Property Details */
+.property-desc-details {
+    margin-inline: 16px;
+}
+.property-desc-details > .heading{
+    display: flex;
+    align-items: center;
+    padding-top: 16px;
+}
+
+/* .property-desc-details h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+} */
+
+.property-desc-details .actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.property-desc-details .actions button{
+    background-color: #118B50;
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 8px;
+}
+
+.property-desc-details .meta-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-top: 8px;
+    padding-bottom: 18px;
+    color: #1f1f1f;
+    border-bottom: 1px solid #E5E7EB;
+}
+.meta-info-items, .price-info{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.price-info{
+    gap: 2px;
+}
+.span-price{
+    font-weight: bold;
+    font-size: large;
+}
+.span-deposit{
+    color: #3f3f3f;
+    font-size: smaller;
+}
+
+
+/* Furnishing Details */
+.furnishing-details {
+    padding: 16px;
+}
+
+.furnishing-details h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+/* Nearby Locations */
+.nearby-locations {
+    padding: 16px;
+}
+
+.nearby-locations h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.location-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Amenities Section */
+.amenities-section {
+    padding: 16px;
+}
+
+.amenities-section h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.show-amenities-btn, .move-to-top button{
+    padding: 8px 12px;
+    border: 1px solid #1f1f1f;
+    color: #1f1f1f;
+    border-radius: 4px;
+    margin-top: 16px;
+    cursor: pointer;
+}
+
+/* Description */
+.description {
+    padding: 16px;
+    border-top: 1px solid #eee;
+}
+
+.description h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.description p {
+    font-size: 14px;
+    margin: 0;
+    color: #666;
+}
+
+/* Move to Top Button */
+.move-to-top {
+    display: flex;
+    justify-content: center;
+    padding-inline: 16px;
+    padding-bottom: 24px;
+}
+
+.move-to-top button {
+    margin: 0;
+}
+
+/* Gallery Modal */
+.gallery-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.gallery-modal.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    color: white;
+}
+
+.modal-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.modal-body img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+.modal-body button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.modal-body button:first-child {
+    left: 16px;
+}
+
+.modal-body button:last-child {
+    right: 16px;
+}
+
+.modal-thumbnails {
+    display: flex;
+    gap: 8px;
+    padding: 16px;
+    overflow-x: auto;
+}
+
+.thumbnail {
+    width: 64px;
+    height: 64px;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.thumbnail.active {
+    border-color: white;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 364px) {
+    .action-button-text{
+        display: none;
+    }
+    .property-desc-details > .heading{
+        flex-direction: column;
+        align-items: start;
+    }
+    .heading .actions{
+        margin: 0;
+        justify-content: center;
+    }
+    .price-info{
+        flex-direction: column;
+    }
+}

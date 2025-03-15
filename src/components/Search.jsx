@@ -8,6 +8,7 @@ const Search = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [apiResponse, setApiResponse] = useState([]);
   const [recentSearches] = useState([
     'Aluva Railway Station',
     'Kalamassery'
@@ -145,10 +146,43 @@ const Search = () => {
     setIsExpanded(false);
     setShowFilters(false);
   };
+  const handleInputChange = async (e) => {
+    setSearchTerm(e.target.value);
+    const d = await fetchLocations(e.target.value);
+    console.log(d.predictions);
+  }
 
-  // const logAllFilters = () => {
-  //   console.log(bhkOptions, tenantTypes, furnishingTypes, propertyTypes, maxDistance, priceRange)
-  // }
+  const fetchLocations = async (searchQuery) => {
+    try {
+      // API parameters
+      const userLat = 10.0158;
+      const userLng = 76.3418;
+
+      const API_KEY = 'iBSJjP4BJbEGDV2IMtxjf7EVNKAJGQkL9CyNwtlT';
+
+      const url = `https://api.olamaps.io/places/v1/autocomplete?input=${encodeURIComponent(searchQuery)}&location=${userLat}%2C${userLng}&radius=100000&strictbounds=true&api_key=${API_KEY}`;
+
+      console.log('Fetching from URL:', url);
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`API call failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setApiResponse(data);
+      return data;
+
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
 
   const toggleFilter = (filterType, value) => {
     switch (filterType) {
@@ -453,38 +487,38 @@ const Search = () => {
             )}
 
             {/* Search Results */}
-            {searchTerm.trim() !== '' && Object.keys(suggestions).length > 0 && (
+            {searchTerm.trim() !== '' && (
               <div>
-                {Object.keys(suggestions).map((category) => (
-                  <div key={category} className="search-section">
-                    <h3 className="section-title">
-                      {formatCategoryName(category)}
-                    </h3>
-                    <div className="search-items">
-                      {suggestions[category].map((location) => (
-                        <div
-                          key={location.id}
-                          className="location-item"
-                          onClick={() => selectLocation(location.name)}
-                        >
-                          <div className="location-info">
-                            <MapPin size={16} className="location-icon" />
-                            <span className="location-name">{location.name}</span>
-                          </div>
-                          <div className="location-distance">
-                            <span className="distance-text">{location.distance}</span>
-                            <ChevronRight size={16} className="chevron-icon" />
-                          </div>
+                <div className="search-section">
+                  <h3 className="section-title">
+                    Search Results
+                  </h3>
+                  <div className="search-items">
+                    {apiResponse.predictions && apiResponse.predictions.map((prediction) => (
+                      <div
+                        key={prediction.place_id}
+                        className="location-item"
+                        onClick={() => selectLocation(location.name)}
+                      >
+                        <div className="location-item-header">
+                        <div className="location-info">
+                          <MapPin size={16} className="location-icon" />
+                          <span className="location-name">{prediction.structured_formatting.main_text}</span>
                         </div>
-                      ))}
-                    </div>
+                        <ChevronRight size={16} className="chevron-icon" />
+                        </div>
+                        <div className="location-item-desc">
+                          {prediction.structured_formatting.secondary_text}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
             )}
 
             {/* No Results */}
-            {searchTerm.trim() !== '' && getTotalSuggestionCount() === 0 && (
+            {searchTerm.trim() !== '' && !apiResponse.predictions && (
               <div className="no-results">
                 <p className="no-results-title">No locations found for "{searchTerm}"</p>
                 <p className="no-results-message">Try searching for a different location or adjusting your filters</p>
@@ -502,14 +536,17 @@ const Search = () => {
                       className="location-item"
                       onClick={() => selectLocation(location.name)}
                     >
-                      <div className="location-info">
-                        <MapPin size={16} className="location-icon" />
-                        <span className="location-name">{location.name}</span>
-                      </div>
-                      <div className="location-distance">
+                      <div className="location-item-header">
+                        <div className="location-info">
+                          <MapPin size={16} className="location-icon" />
+                          <span className="location-name">{location.name}</span>
+                        </div>
+                        <ChevronRight size={16} className="chevron-icon" />
+                        </div>
+                      {/* <div className="location-distance">
                         <span className="distance-text">{location.distance}</span>
                         <ChevronRight size={16} className="chevron-icon" />
-                      </div>
+                      </div> */}
                     </div>
                   ))}
                 </div>
@@ -550,22 +587,22 @@ const Search = () => {
       >
         {/* <div className={`search-input-container`}> */}
         <form onSubmit={handleSearch} className="search-form search-input-wrapper" onClick={isExpanded ? undefined : handleExpand}>
-            <SearchIcon size={24} className="search-input-icon" />
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Search for locations..."
-              className="search-input"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onFocus={handleFocus}
-            />
-            {searchTerm && (
-              <X size={24} className='clear-icon' onClick={(e) => {
-                e.stopPropagation();
-                setSearchTerm('');
-              }} />
-            )}
+          <SearchIcon size={24} className="search-input-icon" />
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder="Search for locations..."
+            className="search-input"
+            value={searchTerm}
+            onChange={handleInputChange}
+            onFocus={handleFocus}
+          />
+          {searchTerm && (
+            <X size={24} className='clear-icon' onClick={(e) => {
+              e.stopPropagation();
+              setSearchTerm('');
+            }} />
+          )}
         </form>
         {/* </div> */}
         <button

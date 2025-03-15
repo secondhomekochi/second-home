@@ -27,7 +27,8 @@ button {
 }
 
 /* Filters Panel */
-.filters-panel, .search-results-panel {
+.filters-panel,
+.search-results-panel {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
@@ -37,6 +38,7 @@ button {
     max-height: 24rem;
     overflow-y: auto;
     max-width: 520px;
+    margin-bottom: 1px;
 }
 
 
@@ -115,12 +117,12 @@ button {
 }
 
 .search-header,
-.location-item,
 .filters-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 8px;
+    position: fixed;
 }
 
 .search-item {
@@ -148,6 +150,7 @@ button {
     align-items: center;
     column-gap: 4px;
 }
+
 /* Search Bar */
 .search-bar {
     display: flex;
@@ -178,22 +181,24 @@ button {
     padding-left: 4px;
     text-overflow: ellipsis;
 }
+
 .search-input:focus {
     outline: none;
 }
 
-.search-input-wrapper:focus-within{
+.search-input-wrapper:focus-within {
     outline: #374151 1px solid;
 }
+
 /* .search-input::placeholder {
 }
 
-.clear-icon {
-    
-}
 
 .clear-icon:hover {
 } */
+.clear-icon {
+    margin-left: auto;
+}
 
 .filter-button {
     flex: 1;
@@ -203,7 +208,7 @@ button {
 }
 
 @media screen and (max-width: 350px) {
-    .filter-text{
+    .filter-text {
         display: none;
     }
 }
@@ -245,6 +250,10 @@ button {
     font-size: 1.125rem;
     font-weight: 500;
     color: #1f2937;
+}
+
+.filters-body, .suggestions-container{
+    margin-top: 50px;
 }
 
 .filters-panel h3,
@@ -316,6 +325,35 @@ button {
 
 .filter-chip-active {
     background-color: #5DB996;
+}
+
+.location-item {
+    position: relative;
+    padding: 8px 12px;
+}
+
+.location-item-header {
+    display: flex;
+    justify-content: space-between;
+}
+.location-icon{
+    margin-right: 2px;
+}
+
+.location-item-desc {
+    display: flex;
+    color: #6b7280;
+    width: 95%;
+    overflow: hidden;
+    text-align: start;
+    padding-inline: 16px;
+    font-size: 12px;
+}
+.chevron-icon{
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .location-item,

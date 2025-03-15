@@ -2,6 +2,7 @@ import Navbar from '../components/Navbar';
 import PropertyCard from '../components/PropertyCard'
 import Search from '../components/Search';
 
+
 const properties = [
     {
         id: 1,
