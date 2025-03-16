@@ -1,10 +1,75 @@
 #root {
   width: 100%;
-  /* max-width: 1280px; */
   margin: 0;
   padding: 0;
   text-align: center;
 }
-a{
+
+a {
   text-decoration: none;
 }
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+*{
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+/* Small mobile phones */
+@media (max-width: 375px) {
+  .filter-text {
+    display: none;
+  }
+
+  .action-button-text {
+    display: none;
+  }
+
+  .property-desc-details>.heading {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .heading .actions {
+    margin: 0;
+    justify-content: center;
+  }
+
+  .price-info {
+    flex-direction: column;
+  }
+  .price-period-long{
+    display: none;
+  }
+  .price-period-short{
+    display: block;
+  }
+}
+
+@media (min-width: 376px){
+  .price-period-long{
+    display: block;
+  }
+  .price-period-short{
+    display: none;
+  }
+}
+/* Mobile phones */
+@media (min-width: 376px) and (max-width: 576px) {
+  
+}
+
+/* Large phones/Small tablets */
+@media (min-width: 577px) and (max-width: 767px) {}
+
+/* Tablets */
+@media (min-width: 768px) and (max-width: 991px) {}
+
+/* Laptops/Small desktops */
+@media (min-width: 992px) and (max-width: 1199px) {}
+
+@media screen and (max-width: 364px) {}

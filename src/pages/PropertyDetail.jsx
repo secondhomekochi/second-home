@@ -7,7 +7,6 @@ const PropertyDetailPage = () => {
     return (
         <>
             <Navbar/>
-            <main/>
             <PropertyDetails />
         </>
     );

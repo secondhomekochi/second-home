@@ -543,10 +543,6 @@ const Search = () => {
                         </div>
                         <ChevronRight size={16} className="chevron-icon" />
                         </div>
-                      {/* <div className="location-distance">
-                        <span className="distance-text">{location.distance}</span>
-                        <ChevronRight size={16} className="chevron-icon" />
-                      </div> */}
                     </div>
                   ))}
                 </div>
@@ -566,10 +562,6 @@ const Search = () => {
                     <Users size={20} className="quick-filter-icon" />
                     <span className="quick-filter-label">Bachelors</span>
                   </div>
-                  {/* <div className="quick-filter">
-                    <CreditCard size={20} className="quick-filter-icon" />
-                    <span className="quick-filter-label">No Deposit</span>
-                  </div> */}
                   <div className="quick-filter" onClick={() => { handleQuickFilterClick('furnishing', 'fully') }}>
                     <Check size={20} className="quick-filter-icon" />
                     <span className="quick-filter-label">Furnished</span>
@@ -583,11 +575,11 @@ const Search = () => {
 
       {/* Floating Search Bar */}
       <div
-        className={`search-bar ${isExpanded ? '' : 'search-bar-collapsed'}`}
+        className='search-bar'
       >
         {/* <div className={`search-input-container`}> */}
         <form onSubmit={handleSearch} className="search-form search-input-wrapper" onClick={isExpanded ? undefined : handleExpand}>
-          <SearchIcon size={24} className="search-input-icon" />
+          <SearchIcon size={24} className="search-icon" />
           <input
             ref={inputRef}
             type="text"
@@ -597,12 +589,10 @@ const Search = () => {
             onChange={handleInputChange}
             onFocus={handleFocus}
           />
-          {searchTerm && (
-            <X size={24} className='clear-icon' onClick={(e) => {
+            <X size={24} className={`clear-icon ${!searchTerm ? 'hidden' : ''}`}  onClick={(e) => {
               e.stopPropagation();
               setSearchTerm('');
             }} />
-          )}
         </form>
         {/* </div> */}
         <button
@@ -618,7 +608,7 @@ const Search = () => {
       </div>
 
       {/* Collapse Handle */}
-      {isExpanded && (
+      {/* {isExpanded && (
         <div className="collapse-handle">
           <button
             onClick={() => {
@@ -630,7 +620,7 @@ const Search = () => {
             <ArrowDown size={18} className="collapse-icon" />
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

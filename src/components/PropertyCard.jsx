@@ -22,15 +22,13 @@ const PropertyCard = ({ property }) => {
       <div className="property-details">
         {/* Property Type and Favorite Button */}
         <div className="property-header">
-          <h2 className="property-name">{property.name} <span className='property-type'>({property.type})</span></h2>
-          {/* <p className="property-type">Hostel</p> */}
-          <button className="favorite-button">
-            <Heart size={28} className='heart-icon' />
-          </button>
+          <h2 className="property-name">{property.name}
+            <span className='property-type'>
+              {property.type}
+            </span>
+          </h2>
+          <Heart size={24} className='heart-icon' />
         </div>
-
-        {/* Property Name */}
-        {/* <h2 className="property-name">Palarivattam</h2> */}
 
         {/* Property Availability */}
         <p className="property-availability">Available for {property.availability}</p>
@@ -51,7 +49,8 @@ const PropertyCard = ({ property }) => {
         <div className="property-footer">
           <div className="price-container">
             <span className="price-amount">{property.price}</span>
-            <span className="price-period">/month</span>
+            <span className="price-period-long">/month</span>
+            <span className="price-period-short">/mo</span>
           </div>
           <Link to={'/property/1'} >
             <button className="view-details-button">

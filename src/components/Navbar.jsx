@@ -1,15 +1,13 @@
 import '../styles/Navbar.css'
 import { Heart } from 'lucide-react';
-import logo from '../assets/logo/logo-250x150.svg';
+import logo from '../assets/logo/logo.svg';
 
 function Navbar() {
     return (
         <>
             <header>
-                <div className="top">
-                    <img className="logo-lg logo" src={logo}></img>
-                    <Heart fontSize={'2rem'} color='green' className='icon-heart' />
-                </div>
+                <img className="logo-lg logo" src={logo}></img>
+                <Heart fontSize={'24px'}className='icon-heart' />
             </header>
         </>
     );
