@@ -27,23 +27,23 @@ const Search = () => {
   const inputRef = useRef(null);
 
   // Mock location data categorized
-  const locationData = {
-    areas: [
-      { id: 1, name: 'Kalamassery', distance: '3.2 Km' },
-      { id: 2, name: 'Edapally Junction', distance: '5.8 Km' },
-      { id: 3, name: 'Palarivattam', distance: '4.0 Km' },
-      { id: 4, name: 'Vytilla', distance: '7.3 Km' }
-    ],
-    stations: [
-      { id: 5, name: 'Aluva Railway Station', distance: '4.0 Km' },
-      { id: 6, name: 'Ernakulam Junction', distance: '9.1 Km' }
-    ],
-    landmarks: [
-      { id: 7, name: 'Lulu Mall', distance: '5.2 Km' },
-      { id: 8, name: 'Marine Drive', distance: '8.4 Km' },
-      { id: 9, name: 'Chittethukara near palarivattom', distance: '4.0 Km' }
-    ]
-  };
+  // const locationData = {
+  //   areas: [
+  //     { id: 1, name: 'Kalamassery', distance: '3.2 Km' },
+  //     { id: 2, name: 'Edapally Junction', distance: '5.8 Km' },
+  //     { id: 3, name: 'Palarivattam', distance: '4.0 Km' },
+  //     { id: 4, name: 'Vytilla', distance: '7.3 Km' }
+  //   ],
+  //   stations: [
+  //     { id: 5, name: 'Aluva Railway Station', distance: '4.0 Km' },
+  //     { id: 6, name: 'Ernakulam Junction', distance: '9.1 Km' }
+  //   ],
+  //   landmarks: [
+  //     { id: 7, name: 'Lulu Mall', distance: '5.2 Km' },
+  //     { id: 8, name: 'Marine Drive', distance: '8.4 Km' },
+  //     { id: 9, name: 'Chittethukara near palarivattom', distance: '4.0 Km' }
+  //   ]
+  // };
 
   // Available filter options
   const bhkFilterOptions = [
@@ -73,29 +73,29 @@ const Search = () => {
   ];
 
   // Simulate API call for location suggestions
-  useEffect(() => {
-    if (searchTerm.trim() === '') {
-      setSuggestions([]);
-      return;
-    }
+  // useEffect(() => {
+  //   if (searchTerm.trim() === '') {
+  //     setSuggestions([]);
+  //     return;
+  //   }
 
-    // Filter locations based on search term (simulating API response)
-    const results = {};
+  //   // Filter locations based on search term (simulating API response)
+  //   const results = {};
 
-    Object.keys(locationData).forEach(category => {
-      const matches = locationData[category]
-        .filter(location =>
-          location.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-          parseFloat(location.distance) <= maxDistance
-        );
+  //   Object.keys(locationData).forEach(category => {
+  //     const matches = locationData[category]
+  //       .filter(location =>
+  //         location.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+  //         parseFloat(location.distance) <= maxDistance
+  //       );
 
-      if (matches.length > 0) {
-        results[category] = matches;
-      }
-    });
+  //     if (matches.length > 0) {
+  //       results[category] = matches;
+  //     }
+  //   });
 
-    setSuggestions(results);
-  }, [searchTerm, maxDistance]);
+  //   setSuggestions(results);
+  // }, [searchTerm, maxDistance]);
 
   // Handle clicks outside to collapse search
   useEffect(() => {
@@ -498,7 +498,7 @@ const Search = () => {
                       <div
                         key={prediction.place_id}
                         className="location-item"
-                        onClick={() => selectLocation(location.name)}
+                        onClick={() => selectLocation(prediction.structured_formatting.main_text)}
                       >
                         <div className="location-item-header">
                         <div className="location-info">
@@ -526,7 +526,7 @@ const Search = () => {
             )}
 
             {/* Popular Search Suggestions (when no term) */}
-            {searchTerm.trim() === '' && (
+            {/* {searchTerm.trim() === '' && (
               <div className="search-section">
                 <h3 className="section-title">Popular Locations</h3>
                 <div className="search-items">
@@ -547,7 +547,7 @@ const Search = () => {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* Property Quick Filters */}
             {searchTerm.trim() === '' && (
