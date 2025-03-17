@@ -2,27 +2,33 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { Heart, Bed, Sofa } from 'lucide-react';
 import '../styles/PropertyCard.css';
+import { formatDistance } from '../utils/distanceFormatUtil'
+import { imageUrlGenerator } from '../utils/imageUtils'
 
 const PropertyCard = ({ property }) => {
+  console.log(property.photos[0].asset._ref);
+  
   return (
     <div className="property-card">
       {/* Property Image with Distance Badge */}
       <div className="image-container">
         <img
-          src={property.image}
+          src={imageUrlGenerator(property.photos[0].asset._ref)}
           alt="Palarivattam Hostel"
           className="property-image"
         />
-        <div className="distance-badge">
-          4.0 Km
-        </div>
+        {property.distance && (
+          <div className="distance-badge">
+            {formatDistance(property.distance)}
+          </div>
+        )}
       </div>
 
       {/* Property Details */}
       <div className="property-details">
         {/* Property Type and Favorite Button */}
         <div className="property-header">
-          <h2 className="property-name">{property.name}
+          <h2 className="property-name">{property.rent}
             <span className='property-type'>
               {property.type}
             </span>

@@ -1,80 +1,58 @@
+import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import PropertyCard from '../components/PropertyCard'
 import Search from '../components/Search';
+import {usePropertyContext} from '../contexts/PropertyContext'
 
-
-const properties = [
-    {
-        id: 1,
-        name: "Palarivattam Hostel",
-        type: "Hostel",
-        distance: "4.0 Km",
-        price: "₹10,000",
-        availability: "Family, Bachelors, Couples",
-        bhk: "2 BHK",
-        furnishing: "Fully Furnished",
-        image: 'src/assets/prop-img-1.webp',
-    },
-    {
-        id: 2,
-        name: "Kakkanad Apartment",
-        type: "Apartment",
-        distance: "6.5 Km",
-        price: "₹15,000",
-        availability: "Family",
-        bhk: "3 BHK",
-        furnishing: "Semi Furnished",
-        image: 'src/assets/prop-img-1.webp',
-    },
-    {
-        id: 3,
-        name: "Edappally Studio",
-        type: "Studio",
-        distance: "3.2 Km",
-        price: "₹8,500",
-        availability: "Bachelors",
-        bhk: "1 BHK",
-        furnishing: "Fully Furnished",
-        image: 'src/assets/prop-img-1.webp',
-    },
-    {
-        id: 4,
-        name: "Vyttila PG",
-        type: "PG Accommodation",
-        distance: "2.0 Km",
-        price: "₹6,000",
-        availability: "Working Professionals",
-        bhk: "1 Room",
-        furnishing: "Furnished",
-        image: 'src/assets/prop-img-1.webp',
-    },
-    {
-        id: 5,
-        name: "Aluva",
-        type: "Villa",
-        distance: "10 Km",
-        price: "₹20,000",
-        availability: "Family, Bachelors",
-        bhk: "4 BHK",
-        furnishing: "Fully Furnished",
-        image: 'src/assets/prop-img-1.webp',
-    }
-];
 
 const HomePage = () => {
+    // const [properties, setProperties] = useState([]);
+
+    // const updateProperties = (newProperties) => {
+    //     setProperties(newProperties);
+    // };
+
+    // useEffect(() => {
+    //     const fetchPropeties = async () => {
+    //         try {
+    //             const url = `https://nteaegk8.apicdn.sanity.io/v2024-08-13/data/query/production?query=*%5B_type+%3D%3D+%22property%22+%26%26+%21%28_id+in+path%28%27drafts.**%27%29%29%5D&returnQuery=false`;
+    
+    //             const response = await fetch(url);
+    
+    //             if (!response.ok) {
+    //                 throw new Error(`API call failed: ${response.status}`);
+    //             }
+    
+    //             let data = await response.json();
+    //             setProperties(data.result);
+    //             console.log(data);
+                
+    
+    //         } catch (error) {
+    //             console.error('Error fetching search results:', error);
+    //         }
+    //     };
+
+    //     fetchPropeties();
+    // }, []);
+
+    const { properties, loading, error, updateProperties } = usePropertyContext();
+  
+    
     return (
         <>
             <Navbar />
             <main>
+                {/* {properties.map(prop=>prop.place)} */}
                 {
                     properties.map(
                         (property) => (
-                            <PropertyCard key={property.id} property={property}></PropertyCard>
+                            <PropertyCard key={property._id} property={property}></PropertyCard>
                         )
                     )
                 }
             </main>
-            <Search />
+            <Search updateProperties= {updateProperties} properties={properties}/>
         </>
     );
 }

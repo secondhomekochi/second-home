@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search as SearchIcon, MapPin, Clock, X, ChevronRight, Filter, Check, Home, Users, CreditCard, Bold, ArrowDown } from 'lucide-react';
 import '../styles/Search.css';
-// import useFilterPanelEnterKey from '../hooks/FilterSectionEnterKey';
+import {filterAndSortProperties} from '../services/PropertyService'
 
-const Search = () => {
+const Search = ({ updateProperties, properties }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
-  const [apiResponse, setApiResponse] = useState([]);
+  const [locationSearchResult, setLocationSearchResult] = useState([]);
   const [recentSearches] = useState([
     'Aluva Railway Station',
     'Kalamassery'
@@ -25,25 +25,6 @@ const Search = () => {
 
   const searchRef = useRef(null);
   const inputRef = useRef(null);
-
-  // Mock location data categorized
-  // const locationData = {
-  //   areas: [
-  //     { id: 1, name: 'Kalamassery', distance: '3.2 Km' },
-  //     { id: 2, name: 'Edapally Junction', distance: '5.8 Km' },
-  //     { id: 3, name: 'Palarivattam', distance: '4.0 Km' },
-  //     { id: 4, name: 'Vytilla', distance: '7.3 Km' }
-  //   ],
-  //   stations: [
-  //     { id: 5, name: 'Aluva Railway Station', distance: '4.0 Km' },
-  //     { id: 6, name: 'Ernakulam Junction', distance: '9.1 Km' }
-  //   ],
-  //   landmarks: [
-  //     { id: 7, name: 'Lulu Mall', distance: '5.2 Km' },
-  //     { id: 8, name: 'Marine Drive', distance: '8.4 Km' },
-  //     { id: 9, name: 'Chittethukara near palarivattom', distance: '4.0 Km' }
-  //   ]
-  // };
 
   // Available filter options
   const bhkFilterOptions = [
@@ -95,7 +76,7 @@ const Search = () => {
   //   });
 
   //   setSuggestions(results);
-  // }, [searchTerm, maxDistance]);
+  // }, [searchTerm, maxDistance]); ---------------LOOK HERE HOW YOU CAN IMPROVE THE API CALL
 
   // Handle clicks outside to collapse search
   useEffect(() => {
@@ -141,15 +122,23 @@ const Search = () => {
     setShowFilters(false);
   };
 
-  const selectLocation = (locationName) => {
-    setSearchTerm(locationName);
+  ////-------------HERE WE CAN ADD CALLING API WITH GEO POINT OF PLACE USER SELECT
+  const selectLocation = (place) => {
+    setSearchTerm(place.structured_formatting.main_text);
     setIsExpanded(false);
     setShowFilters(false);
+    // properties.filter(property => )
+
+    //Make API Call with searched location lat and lng
+    const lat = place.geometry.location.lat;
+    const lng = place.geometry.location.lng;
+    
+    updateProperties(filterAndSortProperties(properties, lat, lng));
+
   };
-  const handleInputChange = async (e) => {
+  const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
-    const d = await fetchLocations(e.target.value);
-    console.log(d.predictions);
+    fetchLocations(e.target.value);
   }
 
   const fetchLocations = async (searchQuery) => {
@@ -160,9 +149,7 @@ const Search = () => {
 
       const API_KEY = 'iBSJjP4BJbEGDV2IMtxjf7EVNKAJGQkL9CyNwtlT';
 
-      const url = `https://api.olamaps.io/places/v1/autocomplete?input=${encodeURIComponent(searchQuery)}&location=${userLat}%2C${userLng}&radius=100000&strictbounds=true&api_key=${API_KEY}`;
-
-      console.log('Fetching from URL:', url);
+      const url = `https://api.olamaps.io/places/v1/autocomplete?input=${encodeURIComponent(searchQuery)}&location=${userLat}%2C${userLng}&radius=10000&strictbounds=true&api_key=${API_KEY}`;
 
       const response = await fetch(url, {
         method: 'GET',
@@ -176,7 +163,7 @@ const Search = () => {
       }
 
       const data = await response.json();
-      setApiResponse(data);
+      setLocationSearchResult(data);
       return data;
 
     } catch (error) {
@@ -234,6 +221,9 @@ const Search = () => {
   };
 
   const resetFilters = () => {
+    console.log(properties.filter(prop => prop.rent <= 3000));
+    updateProperties(properties.filter(prop => prop.rent <= 3000))
+
     setPriceRange([minPrice, maxPrice]);
     setBhkOptions([]);
     setMaxDistance(10);
@@ -494,21 +484,21 @@ const Search = () => {
                     Search Results
                   </h3>
                   <div className="search-items">
-                    {apiResponse.predictions && apiResponse.predictions.map((prediction) => (
+                    {locationSearchResult.predictions && locationSearchResult.predictions.map((place) => (
                       <div
-                        key={prediction.place_id}
+                        key={place.place_id}
                         className="location-item"
-                        onClick={() => selectLocation(prediction.structured_formatting.main_text)}
+                        onClick={() => selectLocation(place)}
                       >
                         <div className="location-item-header">
-                        <div className="location-info">
-                          <MapPin size={16} className="location-icon" />
-                          <span className="location-name">{prediction.structured_formatting.main_text}</span>
-                        </div>
-                        <ChevronRight size={16} className="chevron-icon" />
+                          <div className="location-info">
+                            <MapPin size={16} className="location-icon" />
+                            <span className="location-name">{place.structured_formatting.main_text}</span>
+                          </div>
+                          <ChevronRight size={16} className="chevron-icon" />
                         </div>
                         <div className="location-item-desc">
-                          {prediction.structured_formatting.secondary_text}
+                          {place.structured_formatting.secondary_text}
                         </div>
                       </div>
                     ))}
@@ -518,7 +508,7 @@ const Search = () => {
             )}
 
             {/* No Results */}
-            {searchTerm.trim() !== '' && !apiResponse.predictions && (
+            {searchTerm.trim() !== '' && !locationSearchResult.predictions && (
               <div className="no-results">
                 <p className="no-results-title">No locations found for "{searchTerm}"</p>
                 <p className="no-results-message">Try searching for a different location or adjusting your filters</p>
@@ -589,10 +579,10 @@ const Search = () => {
             onChange={handleInputChange}
             onFocus={handleFocus}
           />
-            <X size={24} className={`clear-icon ${!searchTerm ? 'hidden' : ''}`}  onClick={(e) => {
-              e.stopPropagation();
-              setSearchTerm('');
-            }} />
+          <X size={24} className={`clear-icon ${!searchTerm ? 'hidden' : ''}`} onClick={(e) => {
+            e.stopPropagation();
+            setSearchTerm('');
+          }} />
         </form>
         {/* </div> */}
         <button
