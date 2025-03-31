@@ -8,6 +8,7 @@ export const usePropertyContext = () => useContext(PropertyContext);
 
 export const PropertyProvider = ({ children }) => {
   const [properties, setProperties] = useState([]);
+  const [selectedProperty, setSelectedProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -32,12 +33,19 @@ export const PropertyProvider = ({ children }) => {
     setProperties(newProperties);
   };
 
+  const selectProperty = (propertyId) => {
+    const property = properties.find(property => property._id === propertyId);
+    setSelectedProperty(property);
+  };
+
   return (
     <PropertyContext.Provider value={{ 
       properties, 
       loading, 
       error, 
-      updateProperties 
+      updateProperties,
+      selectProperty, 
+      selectedProperty,
     }}>
       {children}
     </PropertyContext.Provider>

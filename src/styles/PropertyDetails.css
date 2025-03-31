@@ -184,10 +184,15 @@
     margin-bottom: 12px;
 }
 
-.amenities-grid {
+.amenities-grid, .furnishing-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
+}
+.amenities-item, .furnishing-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 /* Nearby Locations */
@@ -323,8 +328,7 @@
 
 .modal-thumbnails {
     display: flex;
-    gap: 8px;
-    padding: 16px;
+    padding-bottom: 12px;
     overflow-x: auto;
 }
 

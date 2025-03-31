@@ -28,10 +28,10 @@ const Search = ({ updateProperties, properties }) => {
 
   // Available filter options
   const bhkFilterOptions = [
-    { value: '1', label: '1 BHK' },
-    { value: '2', label: '2 BHK' },
-    { value: '3', label: '3 BHK' },
-    { value: '4', label: '4+ BHK' }
+    { value: '1 BHK', label: '1 BHK' },
+    { value: '2 BHK', label: '2 BHK' },
+    { value: '3 BHK', label: '3 BHK' },
+    { value: '4 BHK', label: '4+ BHK' }
   ];
 
   const tenantFilterOptions = [
@@ -127,12 +127,11 @@ const Search = ({ updateProperties, properties }) => {
     setSearchTerm(place.structured_formatting.main_text);
     setIsExpanded(false);
     setShowFilters(false);
-    // properties.filter(property => )
 
     //Make API Call with searched location lat and lng
     const lat = place.geometry.location.lat;
     const lng = place.geometry.location.lng;
-    
+
     updateProperties(filterAndSortProperties(properties, lat, lng));
 
   };
@@ -220,6 +219,12 @@ const Search = ({ updateProperties, properties }) => {
     setMaxDistance(parseInt(e.target.value));
   };
 
+  const applyFiltersHandler = () => {
+    properties.filter(property => {
+      (property.rent > priceRange[0] && property.rent < priceRange[1]) && property.bhkType.includes()
+    })
+  }
+
   const resetFilters = () => {
     console.log(properties.filter(prop => prop.rent <= 3000));
     updateProperties(properties.filter(prop => prop.rent <= 3000))
@@ -305,6 +310,7 @@ const Search = ({ updateProperties, properties }) => {
               </button>
               <button
                 onClick={() => {
+                  applyFiltersHandler();
                   setShowFilters(false);
                   setIsExpanded(false)
                 }}

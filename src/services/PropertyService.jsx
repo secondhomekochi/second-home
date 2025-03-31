@@ -1,7 +1,7 @@
 // src/services/propertyService.js
 import haversine from 'haversine';
 
-const API_URL = 'https://nteaegk8.apicdn.sanity.io/v2024-08-13/data/query/production';
+const API_URL = 'https://m72dalv4.apicdn.sanity.io/v2024-08-13/data/query/production';
 
 export const fetchProperties = async () => {
   try {

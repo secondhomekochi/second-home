@@ -36,7 +36,7 @@ const HomePage = () => {
     //     fetchPropeties();
     // }, []);
 
-    const { properties, loading, error, updateProperties } = usePropertyContext();
+    const { properties, loading, error, updateProperties, selectProperty } = usePropertyContext();
   
     
     return (
@@ -47,7 +47,7 @@ const HomePage = () => {
                 {
                     properties.map(
                         (property) => (
-                            <PropertyCard key={property._id} property={property}></PropertyCard>
+                            <PropertyCard key={property._id} property={property} selectProperty={selectProperty}></PropertyCard>
                         )
                     )
                 }
