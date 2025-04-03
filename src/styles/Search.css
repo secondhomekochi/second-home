@@ -321,6 +321,7 @@
 .location-item {
     position: relative;
     padding: 8px 12px;
+    text-align: start;
 }
 
 .location-item-header {

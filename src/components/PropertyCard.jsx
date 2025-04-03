@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { Heart, Bed, Sofa } from 'lucide-react';
 import '../styles/PropertyCard.css';
 import { formatDistance } from '../utils/distanceFormatUtil'
 import { imageUrlGenerator } from '../utils/imageUtils'
+import { isPropertyLiked, togglePropertyLike } from '../utils/propertyLikeUtil'
 
-const PropertyCard = ({ property, selectProperty }) => {
+const PropertyCard = ({ property, selectProperty, handleRemoveProperty }) => {
+  const [propertyLiked, setPropertyLiked] = useState(false);
+  
+  // Initialize the liked state when component mounts
+  useEffect(() => {
+    setPropertyLiked(isPropertyLiked(property._id));
+  }, [property._id]);
+  
+  const handleLikeBtnClick = () => {
+    setPropertyLiked(togglePropertyLike(property._id));
+    if(handleRemoveProperty){
+      handleRemoveProperty(property._id)
+    }
+  };
+  
   try {
     return (
       <div className="property-card">
@@ -32,7 +47,11 @@ const PropertyCard = ({ property, selectProperty }) => {
                 {property.propertyType}
               </span>
             </h2>
-            <Heart size={24} className='heart-icon' />
+            <Heart 
+              size={24} 
+              className={`${propertyLiked ? 'heart-fill' : 'heart-icon'}`} 
+              onClick={handleLikeBtnClick}
+            />
           </div>
   
           {/* Property Availability */}
@@ -57,7 +76,7 @@ const PropertyCard = ({ property, selectProperty }) => {
               <span className="price-period-long">/month</span>
               <span className="price-period-short">/mo</span>
             </div>
-            <Link to={'/property/1'} onClick={()=>{selectProperty(property._id)}} >
+            <Link to={'/property'} onClick={() => {selectProperty(property._id)}} >
               <button className="view-details-button">
                 View Details
                 <svg
@@ -81,7 +100,8 @@ const PropertyCard = ({ property, selectProperty }) => {
       </div>
     );
   } catch (error) {
-    console.warn(error)
+    console.warn(error);
+    return null; // Return null if there's an error
   }
 };
 

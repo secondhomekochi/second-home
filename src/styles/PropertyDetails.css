@@ -174,8 +174,11 @@
 
 
 /* Furnishing Details */
-.furnishing-details {
+.furnishing-details, .other-details {
     padding: 16px;
+}
+.other-details > ul{
+    margin-left: 16px;
 }
 
 .furnishing-details h3 {

@@ -1,14 +1,14 @@
 import React, { useState, useRef } from 'react';
-import {useParams, Link} from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { imageUrlGenerator } from '../utils/imageUtils'
-import {capitalizeText} from '../utils/text'
+import { capitalizeText } from '../utils/text'
 import '../styles/PropertyDetails.css';
 import {
   Waves, Dumbbell, Scissors, Utensils, Stethoscope, BatteryFull,
   ParkingCircle, ToyBrick, Flame, BatteryCharging, ArrowUpDown,
   PartyPopper, Shield, Droplets, Trash2, CloudRain, Video, Droplet,
   Car, Bike, Bed, Box, Table, Refrigerator, RefreshCw, Snowflake,
-  Sofa, Armchair, Filter, Tv, Microwave, Share, Heart, GalleryHorizontal, Home, ChevronUp, MapPin, BedDouble
+  Sofa, Armchair, Filter, Tv, Microwave, Share, Heart, GalleryHorizontal, Home, ChevronUp, MapPin, BedDouble, X, ChevronLeft, ChevronRight
 } from "lucide-react";
 
 import { useLocation } from 'react-router-dom';
@@ -17,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 
 const PropertyDetails = ({ property }) => {
   console.log(property);
-  
+
   const [isFavorite, setIsFavorite] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -87,6 +87,28 @@ const PropertyDetails = ({ property }) => {
     topRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleBookVisit = () => {
+    // Replace with your actual WhatsApp number (with country code, remove +, 0, or spaces)
+    const whatsappNumber = '916238712874'; // Example: 91 for India, followed by number
+
+    // Create the property URL
+    const propertyUrl = `https://secondhome.sanity.studio/structure/property;${property._id}`;
+
+    // Create the WhatsApp message
+    const message = `Hello, I'm interested in this property: ${propertyUrl}`;
+
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(message);
+
+    // Create the WhatsApp URL
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const landmarks = property.location?.landmarks;
+
   return (
     <div className="property-listing" ref={topRef}>
       {/* Title */}
@@ -106,12 +128,15 @@ const PropertyDetails = ({ property }) => {
       {/* Image Gallery */}
       <div className="image-gallery-section">
         <div className="image-gallery">
-          <iframe
-            src="https://www.youtube.com/embed/HBFbEmSkrz0"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            className="main-image" >
-          </iframe>
+          {property.media.shortUrl ?
+            <iframe
+              src={property.media.shortUrl}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              className="main-image" >
+            </iframe> :
+            <img src={imageUrlGenerator(propertyImages[0].asset._ref)} alt={propertyImages[0].alt} className='main-image'/>
+          }
           {/* <div className="main-image" onClick={() => { setShowGallery(true); setCurrentImageIndex(0); }}>
           <img src={propertyImages[0].src} alt={propertyImages[0].alt} />
         </div> */}
@@ -132,7 +157,7 @@ const PropertyDetails = ({ property }) => {
           <h2>2BHK Apartment</h2>
           <div className="actions">
             <button><Share size={18} /></button>
-            <button>Book Visit</button>
+            <button onClick={handleBookVisit}>Book Visit</button>
           </div>
         </div>
         <div className="meta-info">
@@ -153,8 +178,8 @@ const PropertyDetails = ({ property }) => {
         <h3>Furnishing Details</h3>
         <div className="furnishing-grid">
           {icons.filter(icon => property.furnitures.includes(icon.name)).map((icon, index) => (<div key={index} className='furnishing-item'>
-              {icon.icon} {capitalizeText(icon.name)}
-            </div>))}
+            {icon.icon} {capitalizeText(icon.name)}
+          </div>))}
         </div>
       </div>
 
@@ -162,8 +187,15 @@ const PropertyDetails = ({ property }) => {
       <div className="nearby-locations">
         <h3>Near by locations</h3>
         <div className="location-list">
-          <div><MapPin size={16} /> 5km from Wonderla</div>
-          <div><MapPin size={16} /> 3km from INFOPARK phase 1</div>
+          {landmarks.nearestBusStop && (<div><MapPin size={16} /> {landmarks.nearestBusStop.distance} from {landmarks.nearestBusStop.name}</div>)}
+          {landmarks.nearestMetroStation && (<div><MapPin size={16} /> {landmarks.nearestMetroStation.distance} from {landmarks.nearestMetroStation.name}</div>)}
+          {landmarks.pointsOfInterest && (
+            landmarks.pointsOfInterest.map(point => (
+              <div key={point._key}>
+                <MapPin size={16} /> {point.distance} from {point.name}
+              </div>
+            ))
+          )}
         </div>
       </div>
 
@@ -171,16 +203,28 @@ const PropertyDetails = ({ property }) => {
       <div className="amenities-section">
         <h3>What this stay offers</h3>
         <div className="amenities-grid">
-        {icons.filter(icon => {
-          const amenities = showAllAmenities ? property.amenities : property.amenities.slice(0, 6);
-          return amenities.includes(icon.name)
+          {icons.filter(icon => {
+            const amenities = showAllAmenities ? property.amenities : property.amenities.slice(0, 6);
+            return amenities.includes(icon.name)
           }).map((icon, index) => (<div key={index} className='amenities-item'>
-              {icon.icon} {capitalizeText(icon.name)}
-            </div>))}
+            {icon.icon} {capitalizeText(icon.name)}
+          </div>))}
         </div>
         {property.amenities.length > 6 && <button className='show-amenities-btn' onClick={() => setShowAllAmenities(!showAllAmenities)}>
           {showAllAmenities ? "Show less" : "Show all amenities "}
         </button>}
+      </div>
+
+      <div className="other-details">
+        <h3>Other Details</h3>
+        <ul>
+          {Object.entries(property.space).map(([key, value]) => (
+            <li key={key}>
+              {capitalizeText(key)}: {value}
+            </li>
+          ))}
+          <li>Extra charges: {property.pricing.extraCharges.join(', ')}</li>
+        </ul>
       </div>
 
       {/* Description */}
@@ -207,7 +251,7 @@ const PropertyDetails = ({ property }) => {
           <div className="modal-header">
             <span>{currentImageIndex + 1}/{propertyImages.length}</span>
             <button onClick={() => setShowGallery(false)}>
-              <X size={24} color='white'/>
+              <X size={24} color='white' />
             </button>
           </div>
           <div className="modal-body">
@@ -222,7 +266,7 @@ const PropertyDetails = ({ property }) => {
                 className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
                 onClick={() => setCurrentImageIndex(index)}
               >
-                <img src={imageUrlGenerator(image.asset._ref)}  alt={image.alt} />
+                <img src={imageUrlGenerator(image.asset._ref)} alt={image.alt} />
               </div>
             ))}
           </div>
