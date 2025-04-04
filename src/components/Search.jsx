@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search as SearchIcon, MapPin, Clock, X, ChevronRight, Filter, Check, Home, Users, CreditCard, Bold, ArrowDown } from 'lucide-react';
 import '../styles/Search.css';
-import {filterAndSortProperties} from '../services/PropertyService'
+import { filterAndSortProperties } from '../services/PropertyService'
 
 const Search = ({ updateProperties, properties }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,8 +15,7 @@ const Search = ({ updateProperties, properties }) => {
   ]);
 
   // Filter states
-  const [minPrice, maxPrice] = [5000, 30000];
-  const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);
+  const [priceRange, setPriceRange] = useState([]);
   const [bhkOptions, setBhkOptions] = useState([]);
   const [maxDistance, setMaxDistance] = useState(10);
   const [tenantTypes, setTenantTypes] = useState([]);
@@ -28,55 +27,36 @@ const Search = ({ updateProperties, properties }) => {
 
   // Available filter options
   const bhkFilterOptions = [
-    { value: '1 BHK', label: '1 BHK' },
-    { value: '2 BHK', label: '2 BHK' },
-    { value: '3 BHK', label: '3 BHK' },
-    { value: '4 BHK', label: '4+ BHK' }
+    { label: '1 BHK', value: '1 BHK' },
+    { label: '2 BHK', value: '2 BHK' },
+    { label: '3 BHK', value: '3 BHK' },
+    { label: '4 BHK', value: '4 BHK' },
+    { label: '5+ BHK', value: '5+ BHK' }
   ];
 
   const tenantFilterOptions = [
-    { value: 'family', label: 'Family' },
-    { value: 'bachelors', label: 'Bachelors' },
-    { value: 'couples', label: 'Couples' }
+    { label: 'Boys', value: 'Boys' },
+    { label: 'Girls', value: 'Girls' },
+    { label: 'Mixed', value: 'Mixed' },
+    { label: 'Couples', value: 'Couples' },
+    { label: 'Unmarried Couples', value: 'Unmarried Couples' },
+    { label: 'Families', value: 'Families' }
   ];
 
   const furnishingFilterOptions = [
-    { value: 'fully', label: 'Fully Furnished' },
-    { value: 'semi', label: 'Semi Furnished' },
-    { value: 'unfurnished', label: 'Unfurnished' }
+    { value: 'Fully Furnished', label: 'Fully Furnished' },
+    { value: 'Semi Furnished', label: 'Semi Furnished' },
+    { value: 'Unfurnished', label: 'Unfurnished' }
   ];
 
   const propertyTypeOptions = [
-    { value: 'apartment', label: 'Apartment' },
-    { value: 'independent', label: 'Independent House' },
-    { value: 'pg', label: 'PG/Hostel' },
-    { value: 'villa', label: 'Villa' }
+    { label: 'House', value: 'House' },
+    { label: 'Apartment', value: 'Apartment' },
+    { label: 'Villa', value: 'Villa' },
+    { label: 'Studio', value: 'Studio' },
+    { label: 'PG', value: 'PG' }
   ];
 
-  // Simulate API call for location suggestions
-  // useEffect(() => {
-  //   if (searchTerm.trim() === '') {
-  //     setSuggestions([]);
-  //     return;
-  //   }
-
-  //   // Filter locations based on search term (simulating API response)
-  //   const results = {};
-
-  //   Object.keys(locationData).forEach(category => {
-  //     const matches = locationData[category]
-  //       .filter(location =>
-  //         location.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-  //         parseFloat(location.distance) <= maxDistance
-  //       );
-
-  //     if (matches.length > 0) {
-  //       results[category] = matches;
-  //     }
-  //   });
-
-  //   setSuggestions(results);
-  // }, [searchTerm, maxDistance]); ---------------LOOK HERE HOW YOU CAN IMPROVE THE API CALL
 
   // Handle clicks outside to collapse search
   useEffect(() => {
@@ -127,6 +107,8 @@ const Search = ({ updateProperties, properties }) => {
     setSearchTerm(place.structured_formatting.main_text);
     setIsExpanded(false);
     setShowFilters(false);
+    console.log(place);
+
 
     //Make API Call with searched location lat and lng
     const lat = place.geometry.location.lat;
@@ -206,12 +188,12 @@ const Search = ({ updateProperties, properties }) => {
   };
 
   const handleMinPriceChange = (e) => {
-    const value = parseInt(e.target.value);
+    const value = parseInt(e.target.value) || 0;
     setPriceRange([value, priceRange[1]]);
   };
 
   const handleMaxPriceChange = (e) => {
-    const value = parseInt(e.target.value);
+    const value = parseInt(e.target.value) || 0;
     setPriceRange([priceRange[0], value]);
   };
 
@@ -220,9 +202,40 @@ const Search = ({ updateProperties, properties }) => {
   };
 
   const applyFiltersHandler = () => {
-    properties.filter(property => {
-      (property.rent > priceRange[0] && property.rent < priceRange[1]) && property.bhkType.includes()
-    })
+    console.log('here');
+
+    const filteredProperties = properties.filter(prop => {
+      // Check if rent is within the price range
+      console.log(priceRange);
+
+      const priceInRange = prop.pricing.rent >= (priceRange[0] || 0) && (priceRange[1] <= 0 || prop.pricing.rent <= priceRange[1]);
+
+      // Check if bhkType matches any selected bhk option (if any are selected)
+      const bhkMatches = bhkOptions.length === 0 || bhkOptions.includes(prop.bhkType);
+
+      // Check if property allows all selected tenant types
+      const tenantMatches = tenantTypes.length === 0 ||
+        tenantTypes.some(type => prop.tenantPreferences.allowedTenantTypes.includes(type));
+
+      // Check if there's an intersection between selected furnishing types and property's furnishing types
+      const furnishingMatches = furnishingTypes.length === 0 ||
+        furnishingTypes.some(type => prop.furnishingType.includes(type));
+
+      // Check if there's an intersection between selected property types and property's types
+      const propertyTypeMatches = propertyTypes.length === 0 ||
+        propertyTypes.some(type => prop.propertyType.includes(type));
+
+      // Check if distance is within max distance (assuming property has location data)
+      const distanceMatches = prop.distance ? prop.distance <= maxDistance : true;
+
+      // Return true only if all conditions are met
+      console.log(priceInRange, bhkMatches, tenantMatches, furnishingMatches, propertyTypeMatches, distanceMatches)
+      return priceInRange && bhkMatches && tenantMatches &&
+        furnishingMatches && propertyTypeMatches && distanceMatches;
+    });
+
+    console.log(filteredProperties);
+    return filteredProperties;
   }
 
   const resetFilters = () => {
@@ -249,35 +262,34 @@ const Search = ({ updateProperties, properties }) => {
   };
 
   // Helper to count total suggestions
-  const getTotalSuggestionCount = () => {
-    return Object.values(suggestions).reduce((total, category) => total + category.length, 0);
-  };
+  // const getTotalSuggestionCount = () => {
+  //   return Object.values(suggestions).reduce((total, category) => total + category.length, 0);
+  // };
 
-  // Format category names for display
-  const formatCategoryName = (category) => {
-    switch (category) {
-      case 'areas': return 'Areas';
-      case 'stations': return 'Stations';
-      case 'landmarks': return 'Landmarks';
-      default: return category.charAt(0).toUpperCase() + category.slice(1);
-    }
-  };
+  // // Format category names for display
+  // const formatCategoryName = (category) => {
+  //   switch (category) {
+  //     case 'areas': return 'Areas';
+  //     case 'stations': return 'Stations';
+  //     case 'landmarks': return 'Landmarks';
+  //     default: return category.charAt(0).toUpperCase() + category.slice(1);
+  //   }
+  // };
 
-  // Format price for display
-  const formatPrice = (price) => {
-    if (price >= 100000) {
-      return `₹${(price / 100000).toFixed(1)}L`;
-    } else if (price >= 1000) {
-      return `₹${(price / 1000).toFixed(0)}K`;
-    }
-    return `₹${price}`;
-  };
+  // // Format price for display
+  // const formatPrice = (price) => {
+  //   if (price >= 100000) {
+  //     return `₹${(price / 100000).toFixed(1)}L`;
+  //   } else if (price >= 1000) {
+  //     return `₹${(price / 1000).toFixed(0)}K`;
+  //   }
+  //   return `₹${price}`;
+  // };
 
   // const filterPanelRef = useFilterPanelEnterKey(setShowFilters, false)
 
   const handleQuickFilterClick = (filter, option) => {
     toggleFilter(filter, option);
-    handleScrollToAppliedFilters();
   }
 
   const appliedFiltersRef = useRef(null);
@@ -289,9 +301,8 @@ const Search = ({ updateProperties, properties }) => {
     }
   };
 
-  const quickPriceFilter = (price) => {
+  const handleQuickPriceFilter = (price) => {
     priceRange.includes(price) ? setPriceRange([priceRange[0], maxPrice]) : setPriceRange([priceRange[0], price]);
-    handleScrollToAppliedFilters()
   }
 
   return (
@@ -326,7 +337,7 @@ const Search = ({ updateProperties, properties }) => {
             <div className="quick-filters-section filter-section">
               <h3 className="section-title">Quick Filters</h3>
               <div className="quick-filters">
-                <div className="quick-filter" onClick={() => { quickPriceFilter(10000) }}>
+                <div className="quick-filter" onClick={() => { handleQuickPriceFilter(10000) }}>
                   <Home size={20} className="quick-filter-icon" />
                   <span className="quick-filter-label">Under 10K</span>
                 </div>
@@ -349,11 +360,11 @@ const Search = ({ updateProperties, properties }) => {
               <div className="price-inputs">
                 <div className="price-input-section">
                   <label>Min</label>
-                  <input type="text" value={priceRange[0]} className='price-input min-price' onChange={handleMinPriceChange} />
+                  <input type="text" placeholder='Min' value={priceRange[0]} className='price-input min-price' onChange={handleMinPriceChange} />
                 </div>
                 <div className="price-input-section">
                   <label>Max</label>
-                  <input type="text" value={priceRange[1]} className='price-input max-price' onChange={handleMaxPriceChange} />
+                  <input type="text" placeholder='Max' value={priceRange[1]} className='price-input max-price' onChange={handleMaxPriceChange} />
                 </div>
               </div>
             </div>
@@ -550,7 +561,7 @@ const Search = ({ updateProperties, properties }) => {
               <div className="quick-filters-section">
                 <h3 className="section-title">Quick Filters</h3>
                 <div className="quick-filters">
-                  <div className="quick-filter" onClick={() => { quickPriceFilter(10000) }}>
+                  <div className="quick-filter" onClick={() => { handleQuickPriceFilter(10000) }}>
                     <Home size={20} className="quick-filter-icon" />
                     <span className="quick-filter-label">Under 10K</span>
                   </div>

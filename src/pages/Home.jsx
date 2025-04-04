@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import { usePropertyContext } from '../contexts/PropertyContext';
 
 const HomePage = () => {
-    const { properties, loading, error, updateProperties, selectProperty } = usePropertyContext();
+    const { properties, updateProperties, selectProperty, resetProperties } = usePropertyContext();
     const [isFooterVisible, setIsFooterVisible] = useState(false);
     const footerRef = useRef(null);
     
@@ -36,6 +36,7 @@ const HomePage = () => {
         <>
             <Navbar />
             <main>
+                {console.log(properties)}
                 {properties.map((property) => (
                     <PropertyCard 
                         key={property._id} 
@@ -47,7 +48,7 @@ const HomePage = () => {
             
             {/* Only render Search component when footer is not visible */}
             {!isFooterVisible && (
-                <Search updateProperties={updateProperties} properties={properties} />
+                <Search updateProperties={updateProperties} properties={properties} resetProperties={resetProperties} />
             )}
             
             {/* Add ref to Footer */}

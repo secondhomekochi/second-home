@@ -62,11 +62,10 @@ export const filterAndSortProperties = (properties, lat, lng) => {
     .map(property => {
       const distance = haversine(
         { latitude: lat, longitude: lng }, // Reference point
-        { latitude: property.location.lat, longitude: property.location.lng }// Property location
+        { latitude: property.location.coordinates.lat, longitude: property.location.coordinates.lng }// Property location
       );
       return { ...property, distance }; // Add distance to the property object
     })
-    .filter(property => property.distance < radius) // Filter by radius
     .sort((a, b) => a.distance - b.distance); // Sort by distance
 }
 

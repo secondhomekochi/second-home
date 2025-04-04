@@ -8,6 +8,7 @@ export const usePropertyContext = () => useContext(PropertyContext);
 
 export const PropertyProvider = ({ children }) => {
   const [properties, setProperties] = useState([]);
+  const [propertiesBackup, setPropertiesBackup] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,6 +19,7 @@ export const PropertyProvider = ({ children }) => {
         setLoading(true);
         const result = await fetchProperties();
         setProperties(result);
+        setPropertiesBackup(result);
       } catch (err) {
         setError('Failed to load properties');
         console.error('Error loading properties:', err);
@@ -33,6 +35,10 @@ export const PropertyProvider = ({ children }) => {
     setProperties(newProperties);
   };
 
+  const resetProperties = () => {
+    setProperties(propertiesBackup);
+  }
+
   const selectProperty = (propertyId) => {
     const property = properties.find(property => property._id === propertyId);
     setSelectedProperty(property);
@@ -46,6 +52,7 @@ export const PropertyProvider = ({ children }) => {
       updateProperties,
       selectProperty, 
       selectedProperty,
+      resetProperties
     }}>
       {children}
     </PropertyContext.Provider>
