@@ -6,55 +6,25 @@ import Footer from '../components/Footer';
 import { usePropertyContext } from '../contexts/PropertyContext';
 
 const HomePage = () => {
-    const { properties, updateProperties, selectProperty, resetProperties } = usePropertyContext();
-    const [isFooterVisible, setIsFooterVisible] = useState(false);
-    const footerRef = useRef(null);
-    
-    useEffect(() => {
-        if (!footerRef.current) return;
-        
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                setIsFooterVisible(entry.isIntersecting);
-            },
-            {
-                threshold: 0.1,
-                rootMargin: '0px'
-            }
-        );
-        
-        observer.observe(footerRef.current);
-        
-        return () => {
-            if (footerRef.current) {
-                observer.unobserve(footerRef.current);
-            }
-        };
-    }, []);
-    
+    const { properties, updateProperties, selectProperty, resetProperties, propertiesBackup
+    } = usePropertyContext();
+
     return (
         <>
             <Navbar />
             <main>
-                {console.log(properties)}
+                {properties.length == 0 && <div>There is no Matching property</div>}
                 {properties.map((property) => (
-                    <PropertyCard 
-                        key={property._id} 
-                        property={property} 
+                    <PropertyCard
+                        key={property._id}
+                        property={property}
                         selectProperty={selectProperty}
                     />
                 ))}
             </main>
-            
-            {/* Only render Search component when footer is not visible */}
-            {!isFooterVisible && (
-                <Search updateProperties={updateProperties} properties={properties} resetProperties={resetProperties} />
-            )}
-            
-            {/* Add ref to Footer */}
-            <div ref={footerRef}>
-                <Footer />
-            </div>
+
+            <Search updateProperties={updateProperties} properties={properties} propertiesBackup={propertiesBackup} />
+            <Footer />
         </>
     );
 };

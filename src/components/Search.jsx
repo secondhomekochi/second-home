@@ -3,7 +3,8 @@ import { Search as SearchIcon, MapPin, Clock, X, ChevronRight, Filter, Check, Ho
 import '../styles/Search.css';
 import { filterAndSortProperties } from '../services/PropertyService'
 
-const Search = ({ updateProperties, properties }) => {
+const Search = ({ updateProperties, properties, propertiesBackup
+}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
@@ -113,6 +114,7 @@ const Search = ({ updateProperties, properties }) => {
     //Make API Call with searched location lat and lng
     const lat = place.geometry.location.lat;
     const lng = place.geometry.location.lng;
+    // resetProperties();
 
     updateProperties(filterAndSortProperties(properties, lat, lng));
 
@@ -202,13 +204,13 @@ const Search = ({ updateProperties, properties }) => {
   };
 
   const applyFiltersHandler = () => {
-    console.log('here');
+    console.log(properties);
 
-    const filteredProperties = properties.filter(prop => {
+    const filteredProperties = propertiesBackup.filter(prop => {
       // Check if rent is within the price range
       console.log(priceRange);
 
-      const priceInRange = prop.pricing.rent >= (priceRange[0] || 0) && (priceRange[1] <= 0 || prop.pricing.rent <= priceRange[1]);
+      const priceInRange = prop.pricing.rent >= (priceRange[0] || 0) && ((priceRange[1] || 0) <= 0 || prop.pricing.rent <= priceRange[1]);
 
       // Check if bhkType matches any selected bhk option (if any are selected)
       const bhkMatches = bhkOptions.length === 0 || bhkOptions.includes(prop.bhkType);
@@ -235,6 +237,7 @@ const Search = ({ updateProperties, properties }) => {
     });
 
     console.log(filteredProperties);
+    updateProperties(filteredProperties);
     return filteredProperties;
   }
 
@@ -345,10 +348,6 @@ const Search = ({ updateProperties, properties }) => {
                   <Users size={20} className="quick-filter-icon" />
                   <span className="quick-filter-label">Bachelors</span>
                 </div>
-                {/* <div className="quick-filter">
-                    <CreditCard size={20} className="quick-filter-icon" />
-                    <span className="quick-filter-label">No Deposit</span>
-                  </div> */}
                 <div className="quick-filter" onClick={() => { handleQuickFilterClick('furnishing', 'fully') }}>
                   <Check size={20} className="quick-filter-icon" />
                   <span className="quick-filter-label">Furnished</span>
@@ -390,14 +389,6 @@ const Search = ({ updateProperties, properties }) => {
             <div className="filter-section">
               <h3 className="filter-heading">Maximum Distance (Km)</h3>
               <input type="text" onChange={handleDistanceChange} className='distance-input' value={maxDistance} />
-              {/* <input 
-                type="range" 
-                min="1" 
-                max="20" 
-                value={maxDistance}
-                onChange={handleDistanceChange}
-                className="range-slider full-width"
-              /> */}
             </div>
 
             {/* Tenant Type */}
@@ -599,6 +590,7 @@ const Search = ({ updateProperties, properties }) => {
           <X size={24} className={`clear-icon ${!searchTerm ? 'hidden' : ''}`} onClick={(e) => {
             e.stopPropagation();
             setSearchTerm('');
+            // resetProperties(); //////resetProperties
           }} />
         </form>
         {/* </div> */}

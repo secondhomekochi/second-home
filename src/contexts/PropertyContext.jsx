@@ -52,7 +52,8 @@ export const PropertyProvider = ({ children }) => {
       updateProperties,
       selectProperty, 
       selectedProperty,
-      resetProperties
+      resetProperties,
+      propertiesBackup
     }}>
       {children}
     </PropertyContext.Provider>

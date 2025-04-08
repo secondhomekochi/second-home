@@ -2,7 +2,9 @@
     background-color: #121a2bee;
     color: #ffffff;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    padding: 2rem;
+    padding-inline: 12px;
+    padding-top: 12px;
+    padding-bottom: 64px;
 }
 
 .footer-container {
