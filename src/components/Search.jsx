@@ -89,16 +89,16 @@ const Search = ({ updateProperties, properties, propertiesBackup
   };
 
   const handleSearch = (e) => {
-    e.preventDefault();
-    console.log('Searching for:', searchTerm);
-    console.log('With filters:', {
-      priceRange,
-      bhkOptions,
-      maxDistance,
-      tenantTypes,
-      furnishingTypes,
-      propertyTypes
-    });
+    // e.preventDefault();
+    // console.log('Searching for:', searchTerm);
+    // console.log('With filters:', {
+    //   priceRange,
+    //   bhkOptions,
+    //   maxDistance,
+    //   tenantTypes,
+    //   furnishingTypes,
+    //   propertyTypes
+    // });
     setIsExpanded(false);
     setShowFilters(false);
   };
@@ -108,7 +108,6 @@ const Search = ({ updateProperties, properties, propertiesBackup
     setSearchTerm(place.structured_formatting.main_text);
     setIsExpanded(false);
     setShowFilters(false);
-    console.log(place);
 
 
     //Make API Call with searched location lat and lng
@@ -204,11 +203,11 @@ const Search = ({ updateProperties, properties, propertiesBackup
   };
 
   const applyFiltersHandler = () => {
-    console.log(properties);
+    // console.log(properties);
 
     const filteredProperties = propertiesBackup.filter(prop => {
       // Check if rent is within the price range
-      console.log(priceRange);
+      // console.log(priceRange);
 
       const priceInRange = prop.pricing.rent >= (priceRange[0] || 0) && ((priceRange[1] || 0) <= 0 || prop.pricing.rent <= priceRange[1]);
 
@@ -231,7 +230,7 @@ const Search = ({ updateProperties, properties, propertiesBackup
       const distanceMatches = prop.distance ? prop.distance <= maxDistance : true;
 
       // Return true only if all conditions are met
-      console.log(priceInRange, bhkMatches, tenantMatches, furnishingMatches, propertyTypeMatches, distanceMatches)
+      // console.log(priceInRange, bhkMatches, tenantMatches, furnishingMatches, propertyTypeMatches, distanceMatches)
       return priceInRange && bhkMatches && tenantMatches &&
         furnishingMatches && propertyTypeMatches && distanceMatches;
     });
@@ -242,10 +241,8 @@ const Search = ({ updateProperties, properties, propertiesBackup
   }
 
   const resetFilters = () => {
-    console.log(properties.filter(prop => prop.rent <= 3000));
-    updateProperties(properties.filter(prop => prop.rent <= 3000))
-
-    setPriceRange([minPrice, maxPrice]);
+    updateProperties(propertiesBackup)
+    setPriceRange([]);
     setBhkOptions([]);
     setMaxDistance(10);
     setTenantTypes([]);
@@ -255,7 +252,7 @@ const Search = ({ updateProperties, properties, propertiesBackup
 
   const countActiveFilters = () => {
     let count = 0;
-    if (priceRange[0] > 5000 || priceRange[1] < 30000) count++;
+    if (priceRange[0] || priceRange[1]) count++;
     if (bhkOptions.length > 0) count++;
     if (maxDistance < 10) count++;
     if (tenantTypes.length > 0) count++;
@@ -264,48 +261,21 @@ const Search = ({ updateProperties, properties, propertiesBackup
     return count;
   };
 
-  // Helper to count total suggestions
-  // const getTotalSuggestionCount = () => {
-  //   return Object.values(suggestions).reduce((total, category) => total + category.length, 0);
-  // };
-
-  // // Format category names for display
-  // const formatCategoryName = (category) => {
-  //   switch (category) {
-  //     case 'areas': return 'Areas';
-  //     case 'stations': return 'Stations';
-  //     case 'landmarks': return 'Landmarks';
-  //     default: return category.charAt(0).toUpperCase() + category.slice(1);
-  //   }
-  // };
-
-  // // Format price for display
-  // const formatPrice = (price) => {
-  //   if (price >= 100000) {
-  //     return `₹${(price / 100000).toFixed(1)}L`;
-  //   } else if (price >= 1000) {
-  //     return `₹${(price / 1000).toFixed(0)}K`;
-  //   }
-  //   return `₹${price}`;
-  // };
-
-  // const filterPanelRef = useFilterPanelEnterKey(setShowFilters, false)
-
   const handleQuickFilterClick = (filter, option) => {
     toggleFilter(filter, option);
   }
 
   const appliedFiltersRef = useRef(null);
-  const handleScrollToAppliedFilters = () => {
-    console.log('outside');
-    if (appliedFiltersRef.current) {
-      // Scroll the target div to the top
-      appliedFiltersRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
-  };
+  // const handleScrollToAppliedFilters = () => {
+  //   console.log('outside');
+  //   if (appliedFiltersRef.current) {
+  //     // Scroll the target div to the top
+  //     appliedFiltersRef.current.scrollIntoView({ behavior: 'smooth' })
+  //   }
+  // };
 
   const handleQuickPriceFilter = (price) => {
-    priceRange.includes(price) ? setPriceRange([priceRange[0], maxPrice]) : setPriceRange([priceRange[0], price]);
+    priceRange.includes(price) ? setPriceRange([priceRange[0], '']) : setPriceRange([priceRange[0], price]);
   }
 
   return (
@@ -523,29 +493,7 @@ const Search = ({ updateProperties, properties, propertiesBackup
               </div>
             )}
 
-            {/* Popular Search Suggestions (when no term) */}
-            {/* {searchTerm.trim() === '' && (
-              <div className="search-section">
-                <h3 className="section-title">Popular Locations</h3>
-                <div className="search-items">
-                  {locationData.areas.slice(0, 2).concat(locationData.landmarks.slice(0, 1)).map((location) => (
-                    <div
-                      key={location.id}
-                      className="location-item"
-                      onClick={() => selectLocation(location.name)}
-                    >
-                      <div className="location-item-header">
-                        <div className="location-info">
-                          <MapPin size={16} className="location-icon" />
-                          <span className="location-name">{location.name}</span>
-                        </div>
-                        <ChevronRight size={16} className="chevron-icon" />
-                        </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )} */}
+
 
             {/* Property Quick Filters */}
             {searchTerm.trim() === '' && (

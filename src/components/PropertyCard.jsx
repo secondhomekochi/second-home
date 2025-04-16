@@ -55,18 +55,18 @@ const PropertyCard = ({ property, selectProperty, handleRemoveProperty }) => {
           </div>
   
           {/* Property Availability */}
-          <p className="property-availability">Available for {property.tenantPreferences.allowedTenantTypes.join(', ')}</p>
+          <p className="property-availability">Available for {property.tenantPreferences.allowedTenantTypes && property.tenantPreferences.allowedTenantTypes.join(', ')}</p>
   
           {/* Property Features - BHK and Furnishing */}
           <div className="property-features">
-            <div className="feature-item">
+            {property.bhkType && <div className="feature-item">
               <Bed size={18} />
               <span>{property.bhkType}</span>
-            </div>
-            <div className="feature-item">
+            </div>}
+            {property.furnishingType && <div className="feature-item">
               <Sofa size={18} />
               <span>{property.furnishingType}</span>
-            </div>
+            </div>}
           </div>
   
           {/* Price and View Details */}

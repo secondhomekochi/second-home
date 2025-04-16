@@ -16,7 +16,6 @@ import { useLocation } from 'react-router-dom';
 
 
 const PropertyDetails = ({ property }) => {
-  console.log(property);
 
   const [isFavorite, setIsFavorite] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
@@ -26,6 +25,7 @@ const PropertyDetails = ({ property }) => {
 
   // Mock images for gallery
   const propertyImages = property.media.photos;
+  const landmarks = property.location?.landmarks;
 
   // Full list of amenities using only supported icons
   const icons = [
@@ -107,7 +107,6 @@ const PropertyDetails = ({ property }) => {
     window.open(whatsappUrl, '_blank');
   };
 
-  const landmarks = property.location?.landmarks;
 
   return (
     <div className="property-listing" ref={topRef}>
@@ -187,9 +186,9 @@ const PropertyDetails = ({ property }) => {
       <div className="nearby-locations">
         <h3>Near by locations</h3>
         <div className="location-list">
-          {landmarks.nearestBusStop && (<div><MapPin size={16} /> {landmarks.nearestBusStop.distance} from {landmarks.nearestBusStop.name}</div>)}
-          {landmarks.nearestMetroStation && (<div><MapPin size={16} /> {landmarks.nearestMetroStation.distance} from {landmarks.nearestMetroStation.name}</div>)}
-          {landmarks.pointsOfInterest && (
+          {landmarks?.nearestBusStop && (<div><MapPin size={16} /> {landmarks.nearestBusStop.distance} from {landmarks.nearestBusStop.name}</div>)}
+          {landmarks?.nearestMetroStation && (<div><MapPin size={16} /> {landmarks.nearestMetroStation.distance} from {landmarks.nearestMetroStation.name}</div>)}
+          {landmarks?.pointsOfInterest && (
             landmarks.pointsOfInterest.map(point => (
               <div key={point._key}>
                 <MapPin size={16} /> {point.distance} from {point.name}
@@ -215,17 +214,17 @@ const PropertyDetails = ({ property }) => {
         </button>}
       </div>
 
-      <div className="other-details">
+      {(property.space || property.pricing?.extraCharges) && (<div className="other-details">
         <h3>Other Details</h3>
         <ul>
-          {Object.entries(property.space).map(([key, value]) => (
+          {property.space && Object.entries(property.space).map(([key, value]) => (
             <li key={key}>
               {capitalizeText(key)}: {value}
             </li>
           ))}
-          <li>Extra charges: {property.pricing.extraCharges.join(', ')}</li>
+          {property.pricing.extraCharges && <li>Extra charges: {property.pricing.extraCharges.join(', ')}</li>}
         </ul>
-      </div>
+      </div>)}
 
       {/* Description */}
       {property.description && <div className="description">

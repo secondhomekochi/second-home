@@ -91,7 +91,7 @@ export const fetchLikedProperties= async () => {
     }
 
     const data = await response.json();
-    console.log(data.result)
+    // console.log(data.result)
     return data.result;
   } catch (error) {
     console.error('Error fetching properties by IDs:', error);
