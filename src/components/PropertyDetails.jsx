@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom'
-import { imageUrlGenerator } from '../utils/imageUtils'
-import { capitalizeText } from '../utils/text'
+import { imageUrlGenerator } from '../utils/imageUtils';
+import { capitalizeText } from '../utils/text';
+import ytUrl from '../utils/ytUrl';
 import '../styles/PropertyDetails.css';
 import {
   Waves, Dumbbell, Scissors, Utensils, Stethoscope, BatteryFull,
@@ -129,7 +129,7 @@ const PropertyDetails = ({ property }) => {
         <div className="image-gallery">
           {property.media.shortUrl ?
             <iframe
-              src={property.media.shortUrl}
+              src={ytUrl(property.media.shortUrl)}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               className="main-image" >
