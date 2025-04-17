@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { imageUrlGenerator } from '../utils/imageUtils';
 import { capitalizeText } from '../utils/text';
 import ytUrl from '../utils/ytUrl';
@@ -81,6 +81,10 @@ const PropertyDetails = ({ property }) => {
       prev === 0 ? propertyImages.length - 1 : prev - 1
     );
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Function to scroll to top
   const scrollToTop = () => {
@@ -197,9 +201,8 @@ const PropertyDetails = ({ property }) => {
           )}
         </div>
       </div>
-
       {/* What this stay offers */}
-      <div className="amenities-section">
+      {property.amenities && <div className="amenities-section">
         <h3>What this stay offers</h3>
         <div className="amenities-grid">
           {icons.filter(icon => {
@@ -212,7 +215,7 @@ const PropertyDetails = ({ property }) => {
         {property.amenities.length > 6 && <button className='show-amenities-btn' onClick={() => setShowAllAmenities(!showAllAmenities)}>
           {showAllAmenities ? "Show less" : "Show all amenities "}
         </button>}
-      </div>
+      </div>}
 
       {(property.space || property.pricing?.extraCharges) && (<div className="other-details">
         <h3>Other Details</h3>
