@@ -11,7 +11,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<HomePage />} />
-          <Route path='/property' element={<PropertyDetailPage />} />
+          <Route path='/property/:id' element={<PropertyDetailPage />} />
           <Route path='/favorites' element={<LikedPropertiesPage />} />
         </Routes>
       </Router>

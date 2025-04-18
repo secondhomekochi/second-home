@@ -76,7 +76,7 @@ const PropertyCard = ({ property, selectProperty, handleRemoveProperty }) => {
               <span className="price-period-long">/month</span>
               <span className="price-period-short">/mo</span>
             </div>
-            <Link to={'/property'} onClick={() => {selectProperty(property._id)}} >
+            <Link to={`/property/${property._id}`} onClick={() => {selectProperty(property._id)}} >
               <button className="view-details-button">
                 View Details
                 <svg

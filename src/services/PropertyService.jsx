@@ -1,6 +1,6 @@
 // src/services/propertyService.js
 import haversine from 'haversine';
-import {getLikedProperties} from '../utils/propertyLikeUtil'
+import { getLikedProperties } from '../utils/propertyLikeUtil'
 
 const API_URL = 'https://m72dalv4.apicdn.sanity.io/v2024-08-13/data/query/production';
 
@@ -69,7 +69,7 @@ export const filterAndSortProperties = (properties, lat, lng) => {
     .sort((a, b) => a.distance - b.distance); // Sort by distance
 }
 
-export const fetchLikedProperties= async () => {
+export const fetchLikedProperties = async () => {
   try {
 
     const propertyIds = getLikedProperties();
@@ -95,6 +95,27 @@ export const fetchLikedProperties= async () => {
     return data.result;
   } catch (error) {
     console.error('Error fetching properties by IDs:', error);
+    throw error;
+  }
+};
+
+export const fetchPropertyById = async (id) => {
+  try {
+    const query = `*[_type == "property" && _id == "${id}" && !(_id in path('drafts.**'))][0]`;
+
+    const url = `${API_URL}?query=${encodeURIComponent(query)}&returnQuery=false`;
+    console.log(url)
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.result;
+  } catch (error) {
+    console.error(`Error fetching property with id ${id}:`, error);
     throw error;
   }
 };
