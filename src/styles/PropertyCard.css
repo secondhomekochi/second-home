@@ -48,7 +48,13 @@ main{
     align-items: center;
     margin-bottom: 8px;
 }
-
+.property-header:first-child{
+    width: auto;
+}
+.property-header:last-child{
+    width: 24px;
+    flex-shrink: 0;
+}
 .property-type {
     color: #6c757d;
     font-size: 14px;

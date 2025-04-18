@@ -8,19 +8,19 @@ import { isPropertyLiked, togglePropertyLike } from '../utils/propertyLikeUtil'
 
 const PropertyCard = ({ property, selectProperty, handleRemoveProperty }) => {
   const [propertyLiked, setPropertyLiked] = useState(false);
-  
+
   // Initialize the liked state when component mounts
   useEffect(() => {
     setPropertyLiked(isPropertyLiked(property._id));
   }, [property._id]);
-  
+
   const handleLikeBtnClick = () => {
     setPropertyLiked(togglePropertyLike(property._id));
-    if(handleRemoveProperty){
+    if (handleRemoveProperty) {
       handleRemoveProperty(property._id)
     }
   };
-  
+
   try {
     return (
       <div className="property-card">
@@ -37,26 +37,30 @@ const PropertyCard = ({ property, selectProperty, handleRemoveProperty }) => {
             </div>
           )}
         </div>
-  
+
         {/* Property Details */}
         <div className="property-details">
           {/* Property Type and Favorite Button */}
           <div className="property-header">
-            <h2 className="property-name">{property.title}
-              <span className='property-type'>
-                {property.propertyType}
-              </span>
-            </h2>
-            <Heart 
-              size={24} 
-              className={`${propertyLiked ? 'heart-fill' : 'heart-icon'}`} 
-              onClick={handleLikeBtnClick}
-            />
+            <div>
+              <h2 className="property-name">{property.title}
+                <span className='property-type'>
+                  {property.propertyType}
+                </span>
+              </h2>
+            </div>
+            <div>
+              <Heart
+                size={18}
+                className={`${propertyLiked ? 'heart-fill' : 'heart-icon'}`}
+                onClick={handleLikeBtnClick}
+              />
+            </div>
           </div>
-  
+
           {/* Property Availability */}
           <p className="property-availability">Available for {property.tenantPreferences.allowedTenantTypes && property.tenantPreferences.allowedTenantTypes.join(', ')}</p>
-  
+
           {/* Property Features - BHK and Furnishing */}
           <div className="property-features">
             {property.bhkType && <div className="feature-item">
@@ -68,7 +72,7 @@ const PropertyCard = ({ property, selectProperty, handleRemoveProperty }) => {
               <span>{property.furnishingType}</span>
             </div>}
           </div>
-  
+
           {/* Price and View Details */}
           <div className="property-footer">
             <div className="price-container">
@@ -76,7 +80,7 @@ const PropertyCard = ({ property, selectProperty, handleRemoveProperty }) => {
               <span className="price-period-long">/month</span>
               <span className="price-period-short">/mo</span>
             </div>
-            <Link to={`/property/${property._id}`} onClick={() => {selectProperty(property._id)}} >
+            <Link to={`/property/${property._id}`} onClick={() => { selectProperty(property._id) }} >
               <button className="view-details-button">
                 View Details
                 <svg

@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router"
 import { imageUrlGenerator } from '../utils/imageUtils';
 import { capitalizeText } from '../utils/text';
 import { fetchPropertyById } from '../services/PropertyService';
+import {togglePropertyLike, isPropertyLiked} from '../utils/propertyLikeUtil'
 import ytUrl from '../utils/ytUrl';
 import '../styles/PropertyDetails.css';
 import {
@@ -16,18 +17,16 @@ import {
 
 const PropertyDetails = () => {
 
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [propertyLiked, setPropertyLiked] = useState(false);
   const [property, setProperty] = useState();
   const [showGallery, setShowGallery] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showAllAmenities, setShowAllAmenities] = useState(false);
-  const topRef = useRef(null);
 
   const { id } = useParams();
 
 
   useEffect(() => {
-    console.log('this is working');
     window.scrollTo(0, 0);
     (async () => {
       const data = await fetchPropertyById(id);
@@ -35,6 +34,10 @@ const PropertyDetails = () => {
     })()
     console.log(id, property);
   }, [id]);
+
+  useEffect(() => {
+    setPropertyLiked(isPropertyLiked(property?._id));
+    }, [property]);
 
   const propertyImages = property?.media?.photos;
   const landmarks = property?.location?.landmarks;
@@ -100,7 +103,8 @@ const PropertyDetails = () => {
 
   // Function to scroll to top
   const scrollToTop = () => {
-    topRef.current?.scrollIntoView({ behavior: "smooth" });
+    window.scrollTo({top:0, behavior:'smooth'});
+
   };
 
   const handleBookVisit = () => {
@@ -132,7 +136,7 @@ const PropertyDetails = () => {
 
 
   return (
-    <div className="property-listing" ref={topRef}>
+    <div className="property-listing">
       {property && <>
         {/* Title */}
         <div className="title-section">
@@ -142,7 +146,7 @@ const PropertyDetails = () => {
             <span>·</span>
             <span>{property.furnishingType}</span>
             <div className="actions">
-              <button><Heart size={18} /> <span className='action-button-text'>Save</span></button>
+              <button onClick={() => {setPropertyLiked(togglePropertyLike(property._id))}}><Heart size={18} className={`${propertyLiked ? 'heart-fill' : 'heart-icon'}`} /> <span className='action-button-text'>Save</span></button>
             </div>
           </div>
         </div>
