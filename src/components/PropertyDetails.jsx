@@ -93,7 +93,7 @@ const PropertyDetails = ({ property }) => {
 
   const handleBookVisit = () => {
     // Replace with your actual WhatsApp number (with country code, remove +, 0, or spaces)
-    const whatsappNumber = '916238712874'; // Example: 91 for India, followed by number
+    const whatsappNumber = '918714099397'; // Example: 91 for India, followed by number
 
     // Create the property URL
     const propertyUrl = `https://secondhome.sanity.studio/structure/property;${property._id}`;
