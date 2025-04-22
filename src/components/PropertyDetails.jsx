@@ -179,15 +179,19 @@ const PropertyDetails = () => {
           <div className="heading">
             {/* <h2>{propertyTitle}</h2> */}
             <div className="actions">
-              <button><Share size={18} /></button>
+              <button onClick={()=>{
+                const url = window.location.href;
+                navigator.clipboard.writeText(url);
+                alert('Link copied successfully');
+              }}><Share size={18} /></button>
               <button onClick={handleBookVisit}>Book Visit</button>
             </div>
           </div>
           <div className="meta-info">
             <div className="meta-info-items">
-              <span className='meta-info-item'>{property.tenantPreferences.occupancyLimits.maxOccupants} persons</span>
+              {property.tenantPreferences.occupancyLimits.maxOccupants && <span className='meta-info-item'>{property.tenantPreferences.occupancyLimits.maxOccupants} persons</span>}
               <span>·</span>
-              <span className='meta-info-item'>2 bedroom</span>
+              <span className='meta-info-item'>{property.bhkType}</span>
             </div>
             <div className="price-info">
               <span className='span-price'>{propertyRent}</span>
