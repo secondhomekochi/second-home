@@ -3,7 +3,7 @@ import { useParams } from "react-router"
 import { imageUrlGenerator } from '../utils/imageUtils';
 import { capitalizeText } from '../utils/text';
 import { fetchPropertyById } from '../services/PropertyService';
-import {togglePropertyLike, isPropertyLiked} from '../utils/propertyLikeUtil'
+import { togglePropertyLike, isPropertyLiked } from '../utils/propertyLikeUtil'
 import ytUrl from '../utils/ytUrl';
 import '../styles/PropertyDetails.css';
 import {
@@ -37,7 +37,7 @@ const PropertyDetails = () => {
 
   useEffect(() => {
     setPropertyLiked(isPropertyLiked(property?._id));
-    }, [property]);
+  }, [property]);
 
   const propertyImages = property?.media?.photos;
   const landmarks = property?.location?.landmarks;
@@ -103,7 +103,7 @@ const PropertyDetails = () => {
 
   // Function to scroll to top
   const scrollToTop = () => {
-    window.scrollTo({top:0, behavior:'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
   };
 
@@ -146,7 +146,7 @@ const PropertyDetails = () => {
             <span>·</span>
             <span>{property.furnishingType}</span>
             <div className="actions">
-              <button onClick={() => {setPropertyLiked(togglePropertyLike(property._id))}}><Heart size={18} className={`${propertyLiked ? 'heart-fill' : 'heart-icon'}`} /> <span className='action-button-text'>Save</span></button>
+              <button onClick={() => { setPropertyLiked(togglePropertyLike(property._id)) }}><Heart size={18} className={`${propertyLiked ? 'heart-fill' : 'heart-icon'}`} /> <span className='action-button-text'>Save</span></button>
             </div>
           </div>
         </div>
@@ -237,7 +237,7 @@ const PropertyDetails = () => {
           </button>}
         </div>}
 
-        {(property.space || property.pricing?.extraCharges) && (<div className="other-details">
+        {/* {(property.space || property.pricing?.extraCharges) && (<div className="other-details">
           <h3>Other Details</h3>
           <ul>
             {property.space && Object.entries(property.space).map(([key, value]) => (
@@ -247,6 +247,40 @@ const PropertyDetails = () => {
             ))}
             {property.pricing.extraCharges && <li>Extra charges: {property.pricing.extraCharges.join(', ')}</li>}
           </ul>
+        </div>)} */}
+        {property.space && (<div className="other-details">
+          <h3>Other Details</h3>
+          {property.space && (
+            <div className='spatial-details'>
+              <h4>Spatial Details</h4>
+              <ul>
+                {property.space.totalArea && <li key='totalArea'>Total Area: {property.space.totalArea} sqft</li>}
+                {property.space.totalFloors && <li key='numberOfFloor'>Number of Floor: {property.space.totalFloors}</li>}
+                {property.space.floorNumber && <li key='floor'>Floor: {property.space.floorNumber}</li>}
+                {property.space.facingDirection && <li key='facing'>Facing: {property.space.facingDirection}</li>}
+                {property.space.balcony && <li key='balcony'>Property has a beautiful Balcony</li>}
+                {property.space.rooms &&
+                    property.space.rooms.map(room => {
+                      if (room.roomType === 'bedroom') {
+                        return (<li key={room._key}>{room.bedroomDetails?.size} Bedroom {room.bedroomDetails?.attachedBathroom ? 'with attached Bathroom': ''}: {room.count}</li>)
+                      }
+                      if (room.roomType === 'custom') {
+                        return (<li key={room._key}>{capitalizeText(room.customRoomType)}: {room.count}</li>)
+                      }
+                      return (<li key={room._key}>{capitalizeText(room.roomType)}: {room.count}</li>)
+                    })
+                  }
+              </ul>
+            </div>
+          )}
+          {property.pricing.extraCharges &&
+            <div className='extra-charges'>
+              <h4>Extra Charges</h4>
+              <ul>
+                {property.pricing.extraCharges.map(item => <li key={item}>{capitalizeText(item)}</li>)}
+              </ul>
+            </div>
+          }
         </div>)}
 
         {/* Description */}
