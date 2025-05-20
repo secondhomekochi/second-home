@@ -223,8 +223,7 @@ const Search = ({ updateProperties, properties, propertiesBackup
         furnishingTypes.some(type => prop.furnishingType.includes(type));
 
       // Check if there's an intersection between selected property types and property's types
-      const propertyTypeMatches = propertyTypes.length === 0 ||
-        propertyTypes.some(type => prop.propertyType.includes(type));
+      const propertyTypeMatches = propertyTypes.length === 0 || propertyTypes.includes(prop.propertyType);
 
       // Check if distance is within max distance (assuming property has location data)
       const distanceMatches = prop.distance ? prop.distance <= maxDistance : true;
@@ -234,9 +233,8 @@ const Search = ({ updateProperties, properties, propertiesBackup
       return priceInRange && bhkMatches && tenantMatches &&
         furnishingMatches && propertyTypeMatches && distanceMatches;
     });
-
-    console.log(filteredProperties);
     updateProperties(filteredProperties);
+    window.scrollTo(0, 0);
     return filteredProperties;
   }
 
