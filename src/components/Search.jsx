@@ -55,7 +55,8 @@ const Search = ({ updateProperties, properties, propertiesBackup
     { label: 'Apartment', value: 'Apartment' },
     { label: 'Villa', value: 'Villa' },
     { label: 'Studio', value: 'Studio' },
-    { label: 'PG', value: 'PG' }
+    { label: 'PG', value: 'PG' },
+    { label: 'Flat', value: 'Flat' }
   ];
 
 
@@ -285,7 +286,11 @@ const Search = ({ updateProperties, properties, propertiesBackup
             <h2 className="filters-title">Filters</h2>
             <div>
               <button
-                onClick={resetFilters}
+                onClick={() => {
+                  resetFilters();
+                  setShowFilters(false);
+                  setIsExpanded(false);
+                }}
                 className="reset-button"
               >
                 Reset All
